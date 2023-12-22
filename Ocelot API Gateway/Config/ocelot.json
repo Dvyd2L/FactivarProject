@@ -1,0 +1,24 @@
+{
+  "Routes": [
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "servicio1",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/servicio1/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    }
+    // Más rutas aquí...
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://miapigateway"
+  }
+}
