@@ -30,16 +30,17 @@
       "UpstreamHttpMethod": [ "Get" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Users/{pk}",
+      "DownstreamPathTemplate": "/api/Users/{pk}", // petición que procesará la apiGW
       "DownstreamScheme": "https",
+      // este es el microservicio de usuarios
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
           "Port": 7106
         }
       ],
-      "UpstreamPathTemplate": "/usuarios/{pk}",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamPathTemplate": "/usuarios/{pk}", // ruta de la petición al microservicio de usuarios
+      "UpstreamHttpMethod": [ "Get" ] // tipo de petición
     },
     {
       "DownstreamPathTemplate": "/login",
@@ -68,6 +69,8 @@
     // Más rutas aquí...
   ],
   "GlobalConfiguration": {
+    // ruta del proyecto ApiGW, es el que recibe todas las peticiones desde
+    // el front y las redirige a cada uno de los microservicios correspondientes
     "BaseUrl": "https://localhost:7230"
   }
 }
