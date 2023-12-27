@@ -29,7 +29,9 @@ public partial class UsersContext : DbContext
 
             entity.HasIndex(e => e.Email, "UQ__Usuarios__A9D105342BBD673E").IsUnique();
 
-            entity.HasIndex(e => e.EnlaceCambioPass, "UQ__Usuarios__DBEF69A101FBF8E3").IsUnique();
+            entity.HasIndex(e => e.EnlaceCambioPass, "idx_unico")
+                .IsUnique()
+                .HasFilter("([EnlaceCambioPass] IS NOT NULL)");
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Email).HasMaxLength(100);
