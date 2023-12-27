@@ -1,1 +1,0 @@
-﻿https://arbems.com/api-gateway-en-net-6-con-ocelot/
