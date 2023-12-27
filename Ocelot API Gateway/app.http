@@ -1,4 +1,4 @@
-@Ocelot_API_Gateway_HostAddress = http://localhost:7230
+@Ocelot_API_Gateway_HostAddress = https://localhost:7230
 
 ### Petición POST para el registro de usuarios
 POST {{Ocelot_API_Gateway_HostAddress}}/usuarios/register HTTP/1.1
@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "Email": "usuario@example.com",
-  "Password": "passwordSeguro&0"
+  "Password": "$passwordSeguro&0"
 }
 
 ### Petición POST para el login de usuarios
@@ -17,5 +17,5 @@ Content-Type: application/json
 
 {
   "Email": "usuario@example.com",
-  "Password": "passwordSeguro&0"
+  "Password": "$passwordSeguro&0"
 }
