@@ -9,7 +9,7 @@ public class DbService<TContext, TModel, TPrimaryKey>(TContext context)
     where TModel : class
 {
     #region PROPs
-    private readonly DbContext _context = context;
+    private readonly TContext _context = context;
     private readonly DbSet<TModel> _dbTable = context.Set<TModel>();
     #endregion PROPs
 
