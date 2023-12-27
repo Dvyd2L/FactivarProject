@@ -23,6 +23,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\DTOs\DTOs.csproj" />
 		<ProjectReference Include="..\Handlers\Handlers.csproj" />
+		<ProjectReference Include="..\Services\Services.csproj" />
 		<ProjectReference Include="..\Utils\Utils.csproj" />
 	</ItemGroup>
 

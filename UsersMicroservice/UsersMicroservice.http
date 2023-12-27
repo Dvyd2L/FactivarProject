@@ -1,6 +1,11 @@
 @UsersMicroservice_HostAddress = http://localhost:5046
 
-GET {{UsersMicroservice_HostAddress}}/weatherforecast/
-Accept: application/json
+//POST {{UsersMicroservice_HostAddress}}/api/Users
+POST https://localhost:7106/api/Users/eeMacarena
+Accept: */*
 
+{
+  "Email": "paco@gmail.com",
+  "Password": "aA1_bB2$cC3"
+}
 ###

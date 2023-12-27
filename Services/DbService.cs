@@ -3,8 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services;
 
-public class DbService<TModel, TPrimaryKey>(DbContext context)
+public class DbService<TContext, TModel, TPrimaryKey>(TContext context)
     : IDbService<TModel, TPrimaryKey>
+    where TContext : DbContext
     where TModel : class
 {
     #region PROPs

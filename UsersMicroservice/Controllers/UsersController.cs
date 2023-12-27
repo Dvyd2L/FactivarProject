@@ -11,7 +11,7 @@ namespace UsersMicroservice.Controllers;
 public class UsersController(IDbService<Usuario, Guid> dbService)
     : BasicController<Usuario, Guid>(dbService)
 {
-    [HttpPost]
+    [HttpPost("eeMacarena")]
     public async Task<IActionResult> Create([FromBody] UserDTO input)
     {
         if (input is null)

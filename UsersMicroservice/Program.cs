@@ -1,6 +1,8 @@
+using Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Services;
 using System.Text;
 using System.Text.Json.Serialization;
 using UsersMicroservice.Models;
@@ -26,6 +28,8 @@ builder.Services.AddDbContext<UsersContext>(options =>
     _ = options.UseSqlServer(connectionString);
     _ = options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
+
+builder.Services.AddTransient<IDbService<Usuario, Guid>, DbService<UsersContext, Usuario, Guid>>();
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
