@@ -1,6 +1,21 @@
-@Ocelot_API_Gateway_HostAddress = http://localhost:5053
+@Ocelot_API_Gateway_HostAddress = http://localhost:7230
 
-GET {{Ocelot_API_Gateway_HostAddress}}/weatherforecast/
-Accept: application/json
+### Petición POST para el registro de usuarios
+POST {{Ocelot_API_Gateway_HostAddress}}/usuarios/register HTTP/1.1
+#Host: {{Ocelot_API_Gateway_HostAddress}}
+Content-Type: application/json
 
-###
+{
+  "Email": "usuario@example.com",
+  "Password": "passwordSeguro&0"
+}
+
+### Petición POST para el login de usuarios
+POST {{Ocelot_API_Gateway_HostAddress}}/usuarios/login HTTP/1.1
+#Host: {{Ocelot_API_Gateway_HostAddress}}
+Content-Type: application/json
+
+{
+  "Email": "usuario@example.com",
+  "Password": "passwordSeguro&0"
+}

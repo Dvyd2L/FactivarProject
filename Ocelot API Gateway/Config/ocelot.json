@@ -1,24 +1,48 @@
 {
   "Routes": [
+    //{
+    //  "AuthenticationOptions": {
+    //    "AuthenticationProviderKey": "Bearer",
+    //    "AllowedScopes": []
+    //  },
+    //  "DownstreamPathTemplate": "/api/{everything}",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "servicio1",
+    //      "Port": 80
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/servicio1/{everything}",
+    //  "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+    //},
     {
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamPathTemplate": "/login",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "servicio1",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 7106
         }
       ],
-      "UpstreamPathTemplate": "/servicio1/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "UpstreamPathTemplate": "/usuarios/login",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/register",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7106
+        }
+      ],
+      "UpstreamPathTemplate": "/usuarios/register",
+      "UpstreamHttpMethod": [ "Post" ]
     }
     // Más rutas aquí...
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://miapigateway"
+    "BaseUrl": "https://localhost:7230"
   }
 }

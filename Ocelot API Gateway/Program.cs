@@ -1,3 +1,4 @@
+using Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
@@ -7,8 +8,12 @@ using System.Text;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+#region CONFIGs
 string basePath = Directory.GetCurrentDirectory();
+//string connectionString = new ConfigSetup(builder).GetConnectionString();
+string secret = new ConfigSetup(builder).GetSecret();
 string ocelotConfigFilePath = Path.Combine(basePath, "Config", "ocelot.json");
+#endregion CONFIGs
 
 #region CONFIGs
 builder.Configuration.AddJsonFile(ocelotConfigFilePath, optional: false, reloadOnChange: true);
@@ -20,19 +25,12 @@ builder.Services.AddOcelot().AddSingletonDefinedAggregator<ServiceAggregator>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-
-            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-            ValidAudience = builder.Configuration["JwtSettings:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]))
-        };
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+          Encoding.UTF8.GetBytes(secret))
     });
 
 builder.Services.AddEndpointsApiExplorer();
