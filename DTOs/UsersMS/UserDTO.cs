@@ -7,6 +7,6 @@ public class UserDTO
     [EmailValidator]
     public required string Email { get; set; }
 
-    [PasswordValidacion]
+    [PasswordValidator]
     public required string Password { get; set; }
 }

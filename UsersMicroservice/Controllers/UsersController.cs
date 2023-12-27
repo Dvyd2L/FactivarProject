@@ -22,8 +22,6 @@ public class UsersController(IDbService<Usuario, Guid> dbService, IHashService h
         if (input is null)
             return BadRequest("Entrada no válida");
 
-        //input.Password = PasswordHandler.HashPassword(input.Password);
-
         IEnumerable<Usuario>? users = await _dbService.GetFromDB();
         string? validMail = users?.FirstOrDefault(x => x.Email == input.Email)?.Email;
 
