@@ -16,6 +16,7 @@
     //  "UpstreamPathTemplate": "/servicio1/{everything}",
     //  "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     //},
+    //UsersMicroService
     {
       "DownstreamPathTemplate": "/login",
       "DownstreamScheme": "https",
