@@ -31,6 +31,7 @@ builder.Services.AddDbContext<UsersContext>(options =>
 
 builder.Services.AddTransient<IDbService<Usuario, Guid>, DbService<UsersContext, Usuario, Guid>>();
 builder.Services.AddTransient<IHashService, HashService>();
+builder.Services.AddTransient<TokenService>();
 
 #region AUTHENTICATION
 builder.Services

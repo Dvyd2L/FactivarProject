@@ -2,16 +2,21 @@
 using Handlers;
 using Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 using UsersMicroservice.Models;
 
 namespace UsersMicroservice.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController(IDbService<Usuario, Guid> dbService, IHashService hashService)
-    : BasicController<Usuario, Guid>(dbService)
+public class UsersController(
+    IDbService<Usuario, Guid> dbService,
+    IHashService hashService,
+    TokenService tokenService
+    ) : BasicController<Usuario, Guid>(dbService)
 {
     #region MyRegion
+    private readonly TokenService _tokenService = tokenService;
     private readonly IHashService _hashService = hashService;
     private readonly IDbService<Usuario, Guid> _dbService = dbService;
     #endregion
@@ -38,5 +43,29 @@ public class UsersController(IDbService<Usuario, Guid> dbService, IHashService h
         };
 
         return await base.Post(newUser);
+    }
+
+    [HttpPost("/login")]
+    public async Task<ActionResult<ILoginResponse>> Login([FromBody] UserDTO input)
+    {
+        if (input is null)
+            return BadRequest("Entrada no válida");
+
+        IEnumerable<Usuario>? users = await _dbService.GetFromDB();
+        Usuario? userDB = users?.FirstOrDefault(x => x.Email == input.Email);
+
+        if (userDB is null)
+            return BadRequest($"El email {input.Email} no está registrado");
+
+        IHashResult hashResult = _hashService.GetHash(input.Password, userDB.Salt);
+
+        bool validPassword = hashResult.Hash == userDB.Password;
+
+        if (!validPassword)
+            return BadRequest("La contraseña no es correcta");
+
+        ILoginResponse response = _tokenService.GenerarToken(userDB.Email);
+
+        return Ok(response);
     }
 }
