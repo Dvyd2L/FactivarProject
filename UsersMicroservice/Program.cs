@@ -1,3 +1,4 @@
+using Helpers;
 using Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,6 @@ using Services;
 using System.Text;
 using System.Text.Json.Serialization;
 using UsersMicroservice.Models;
-using Utils;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +30,9 @@ builder.Services.AddDbContext<UsersContext>(options =>
 });
 
 builder.Services.AddTransient<IDbService<Usuario, Guid>, DbService<UsersContext, Usuario, Guid>>();
+builder.Services.AddTransient<IHashService, HashService>();
 
+#region AUTHENTICATION
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
@@ -40,6 +42,7 @@ builder.Services
         IssuerSigningKey = new SymmetricSecurityKey(
           Encoding.UTF8.GetBytes(secret))
     });
+#endregion AUTHENTICATION
 
 #region CORS Policy
 builder.Services.AddCors(options =>

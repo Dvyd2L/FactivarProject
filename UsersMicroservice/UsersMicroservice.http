@@ -5,6 +5,7 @@ POST https://localhost:7106/api/Users/eeMacarena
 Accept: */*
 
 {
+# "Email": "yo@gmail.com",
   "Email": "paco@gmail.com",
   "Password": "aA1_bB2$cC3"
 }
