@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 
-namespace Utils;
+namespace Helpers;
 
 public class ConfigSetup(WebApplicationBuilder builder)
 {
