@@ -12,7 +12,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 string basePath = Directory.GetCurrentDirectory();
 //string connectionString = new ConfigSetup(builder).GetConnectionString();
 string secret = new ConfigSetup(builder).GetSecret();
-string ocelotConfigFilePath = Path.Combine(basePath, "Config", "ocelot.json");
+string ocelotConfigFilePath = Path.Combine(basePath, "Properties", "ocelot.json");
 #endregion CONFIGs
 
 #region CONFIGs

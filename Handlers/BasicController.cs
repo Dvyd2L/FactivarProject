@@ -45,5 +45,20 @@ public class BasicController<TModel, TPrimaryKey>(
 
         return NoContent();
     }
+
+    //[HttpDelete]
+    //public virtual async Task<IActionResult> Delete(object data)
+    //{
+    //    if (data is null)
+    //        return BadRequest();
+
+    //    else if (data is not TModel)
+    //        return BadRequest();
+
+    //    else
+    //        await _service.DeleteFromBD(data as TModel);
+
+    //    return NoContent();
+    //}
     #endregion METHODs
 }
