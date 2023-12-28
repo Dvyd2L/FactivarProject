@@ -1,0 +1,6 @@
+@FactivarAPI_HostAddress = http://localhost:5059
+
+GET {{FactivarAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,5 +1,4 @@
 ﻿using DTOs.UsersMS;
-using Handlers;
 using Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Services;
@@ -13,13 +12,14 @@ public class UsersController(
     IDbService<Usuario, Guid> dbService,
     IHashService hashService,
     TokenService tokenService
-    ) : BasicController<Usuario, Guid>(dbService)
+    ) : ControllerBase
+//) : BasicController<Usuario, Guid>(dbService)
 {
-    #region MyRegion
+    #region PROPs
     private readonly TokenService _tokenService = tokenService;
     private readonly IHashService _hashService = hashService;
     private readonly IDbService<Usuario, Guid> _dbService = dbService;
-    #endregion
+    #endregion PROPs
 
     [HttpPost("/register")]
     public async Task<IActionResult> Create([FromBody] UserDTO input)
@@ -27,7 +27,7 @@ public class UsersController(
         if (input is null)
             return BadRequest("Entrada no válida");
 
-        IEnumerable<Usuario>? users = await _dbService.GetFromDB();
+        IEnumerable<Usuario>? users = await _dbService.Read();
         string? validMail = users?.FirstOrDefault(x => x.Email == input.Email)?.Email;
 
         if (validMail is not null)
@@ -42,7 +42,10 @@ public class UsersController(
             Salt = hashResult.Salt,
         };
 
-        return await base.Post(newUser);
+        await _dbService.Create(newUser);
+
+        return Created();
+        //return await base.Post(newUser);
     }
 
     [HttpPost("/login")]
@@ -51,7 +54,7 @@ public class UsersController(
         if (input is null)
             return BadRequest("Entrada no válida");
 
-        IEnumerable<Usuario>? users = await _dbService.GetFromDB();
+        IEnumerable<Usuario>? users = await _dbService.Read();
         Usuario? userDB = users?.FirstOrDefault(x => x.Email == input.Email);
 
         if (userDB is null)

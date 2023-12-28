@@ -18,7 +18,7 @@ public class BasicController<TModel, TPrimaryKey>(
     [HttpGet]
     public virtual async Task<ActionResult<IEnumerable<TModel>>> Get()
     {
-        IEnumerable<TModel>? result = await _service.GetFromDB();
+        IEnumerable<TModel>? result = await _service.Read();
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -26,7 +26,7 @@ public class BasicController<TModel, TPrimaryKey>(
     [HttpGet("{pk}")]
     public virtual async Task<ActionResult<TModel>> GetByPK([FromRoute] TPrimaryKey pk)
     {
-        TModel? result = await _service.GetFromDB(pk);
+        TModel? result = await _service.Read(pk);
 
         return result is null ? NotFound() : Ok(result);
     }
@@ -41,7 +41,7 @@ public class BasicController<TModel, TPrimaryKey>(
             return BadRequest();
 
         else
-            await _service.PostToBD(data as TModel);
+            await _service.Create(data as TModel);
 
         return NoContent();
     }

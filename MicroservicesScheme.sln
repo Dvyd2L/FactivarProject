@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Middlewares", "Middlewares\Middlewares.csproj", "{BAF20658-6899-406E-9E6D-3563D7340C42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactivarAPI", "FactivarAPI\FactivarAPI.csproj", "{98ABA137-1F20-4F84-9E9B-9A332740E8B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{BAF20658-6899-406E-9E6D-3563D7340C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAF20658-6899-406E-9E6D-3563D7340C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAF20658-6899-406E-9E6D-3563D7340C42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98ABA137-1F20-4F84-9E9B-9A332740E8B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98ABA137-1F20-4F84-9E9B-9A332740E8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98ABA137-1F20-4F84-9E9B-9A332740E8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98ABA137-1F20-4F84-9E9B-9A332740E8B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
