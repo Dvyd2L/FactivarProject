@@ -46,13 +46,37 @@ public class DbService<TContext, TModel, TPrimaryKey>(TContext context)
     #endregion POST
 
     #region PUT
-    public Task Update(TModel data) => throw new NotImplementedException();
-    public Task Update(IEnumerable<TModel> data) => throw new NotImplementedException();
+    public async Task Update(TModel data)
+    {
+        _ = _dbTable.Update(data);
+        _ = await _context.SaveChangesAsync();
+    }
+    public async Task Update(IEnumerable<TModel> data)
+    {
+        _dbTable.UpdateRange(data);
+        _ = await _context.SaveChangesAsync();
+    }
     #endregion PUT
 
     #region DELETE
-    public Task Delete(TPrimaryKey pk) => throw new NotImplementedException();
-    public Task Delete(IEnumerable<TPrimaryKey> pk) => throw new NotImplementedException();
+    public async Task Delete(TPrimaryKey pk)
+    {
+        TModel? data = await _dbTable.FindAsync(pk);
+        if (data is not null)
+        {
+            _ = _dbTable.Remove(data);
+            _ = await _context.SaveChangesAsync();
+        }
+    }
+    public async Task Delete(IEnumerable<TPrimaryKey> pk)
+    {
+        TModel? data = await _dbTable.FindAsync(pk);
+        if (data is not null)
+        {
+            _dbTable.RemoveRange(data);
+            _ = await _context.SaveChangesAsync();
+        }
+    }
     #endregion DELETE
 
     #endregion METHODs
