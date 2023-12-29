@@ -21,6 +21,14 @@ public class UsersController(
     private readonly IDbService<Usuario, Guid> _dbService = dbService;
     #endregion PROPs
 
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Usuario>>> Get()
+        => Ok(await _dbService.Read());
+
+    [HttpGet("{pk:guid}")]
+    public async Task<ActionResult<IEnumerable<Usuario>>> Get([FromRoute] Guid pk)
+        => Ok(await _dbService.Read(pk));
+
     [HttpPost("/register")]
     public async Task<IActionResult> Create([FromBody] UserDTO input)
     {
