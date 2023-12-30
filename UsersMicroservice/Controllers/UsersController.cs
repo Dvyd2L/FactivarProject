@@ -1,82 +1,56 @@
-﻿using DTOs.UsersMS;
-using Interfaces;
+﻿using Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services;
 using UsersMicroservice.Models;
 
 namespace UsersMicroservice.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class UsersController(
-    IDbService<Usuario, Guid> dbService,
-    IHashService hashService,
-    TokenService tokenService
+    IDbService<Usuario, Guid> dbService
     ) : ControllerBase
 {
     #region PROPs
-    private readonly TokenService _tokenService = tokenService;
-    private readonly IHashService _hashService = hashService;
     private readonly IDbService<Usuario, Guid> _dbService = dbService;
     #endregion PROPs
 
-    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Usuario>>> Get()
-        => Ok(await _dbService.Read());
-
-    [Authorize]
-    [HttpGet("{pk:guid}")]
-    public async Task<ActionResult<IEnumerable<Usuario>>> Get([FromRoute] Guid pk)
-        => Ok(await _dbService.Read(pk));
-
-    [HttpPost("/register")]
-    public async Task<IActionResult> Create([FromBody] UserDTO input)
     {
-        if (input is null)
-            return BadRequest("Entrada no válida");
+        IEnumerable<Usuario>? result = await _dbService.Read();
 
-        IEnumerable<Usuario>? users = await _dbService.Read();
-        string? validMail = users?.FirstOrDefault(x => x.Email == input.Email)?.Email;
+        if (result is null)
+            return NotFound();
 
-        if (validMail is not null)
-            return BadRequest($"El email {input.Email} ya está registrado");
+        List<object> response = [];
 
-        IHashResult hashResult = _hashService.GetHash(input.Password);
-
-        Usuario newUser = new()
+        foreach (Usuario item in result)
         {
-            Email = input.Email,
-            Password = hashResult.Hash,
-            Salt = hashResult.Salt,
-        };
+            response.Add(new
+            {
+                item.Id,
+                item.Email,
+            });
+        }
 
-        await _dbService.Create(newUser);
-
-        return Created();
+        return Ok(response);
     }
 
-    [HttpPost("/login")]
-    public async Task<ActionResult<ILoginResponse>> Login([FromBody] UserDTO input)
+    [HttpGet("{pk:guid}")]
+    public async Task<ActionResult<IEnumerable<Usuario>>> Get([FromRoute] Guid pk)
     {
-        if (input is null)
-            return BadRequest("Entrada no válida");
+        Usuario? result = await _dbService.Read(pk);
 
-        IEnumerable<Usuario>? users = await _dbService.Read();
-        Usuario? userDB = users?.FirstOrDefault(x => x.Email == input.Email);
+        if (result is null)
+            return NotFound();
 
-        if (userDB is null)
-            return BadRequest($"El email {input.Email} no está registrado");
-
-        IHashResult hashResult = _hashService.GetHash(input.Password, userDB.Salt);
-
-        bool validPassword = hashResult.Hash == userDB.Password;
-
-        if (!validPassword)
-            return BadRequest("La contraseña no es correcta");
-
-        ILoginResponse response = _tokenService.GenerarToken(userDB.Email, userDB.Id.ToString());
+        var response = new
+        {
+            result.Id,
+            result.Email,
+        };
 
         return Ok(response);
     }

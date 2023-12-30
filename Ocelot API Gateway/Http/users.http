@@ -27,7 +27,7 @@ POST {{Ocelot_API_Gateway_HostAddress}}/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "Email": "ratonesPacos@example.com",
+  "Email": "ratonesPacosVarios@example.com",
   "Password": "$passwordSeguro&0"
 }
 
