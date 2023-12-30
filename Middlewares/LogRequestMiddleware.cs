@@ -1,4 +1,7 @@
-﻿namespace EvaluacionDavidLlopis.Middlewares;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+
+namespace Middlewares;
 
 public class LogRequestMiddleware(RequestDelegate next, IWebHostEnvironment env)
 {

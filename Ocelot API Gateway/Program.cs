@@ -5,14 +5,19 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Services;
 using System.Text;
+using System.Text.Json;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 #region CONFIGs
 string basePath = Directory.GetCurrentDirectory();
-//string connectionString = new ConfigSetup(builder).GetConnectionString();
-string secret = new ConfigSetup(builder).GetSecret();
 string ocelotConfigFilePath = Path.Combine(basePath, "Properties", "ocelot.json");
+
+ConfigSetup cs = new(builder);
+string secret = cs.GetSecret();
+string audience = cs.GetAudience();
+string issuer = cs.GetIssuer();
+SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(secret));
 #endregion CONFIGs
 
 #region CONFIGs
@@ -25,12 +30,54 @@ builder.Services.AddOcelot().AddSingletonDefinedAggregator<ServiceAggregator>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+    .AddJwtBearer(options =>
     {
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(
-          Encoding.UTF8.GetBytes(secret))
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateLifetime = true,
+            ValidAudience = audience,
+            ValidateAudience = true, // en mis ejemplos es false
+            ValidateIssuer = true, // en mis ejemplos es false
+            ValidIssuer = issuer,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = securityKey
+        };
+
+        // TO DO: esto aun no funciona
+        options.Events = new JwtBearerEvents
+        {
+            //OnAuthenticationFailed = context =>
+            //{
+            //    if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            //    {
+            //        context.Response.Headers.Append("Token-Expired", "true");
+            //    }
+
+            //    if (context.Exception.GetType() == typeof(SecurityTokenInvalidAudienceException))
+            //    {
+            //        context.Response.Headers.Append("Token-Audience", "Invalid");
+            //    }
+
+            //    if (context.Exception.GetType() == typeof(SecurityTokenException))
+            //    {
+            //        context.Response.Headers.Append("Token-Exception", true.ToString());
+            //    }
+
+            //    return Task.CompletedTask;
+            //},
+
+            OnChallenge = context =>
+            {
+                context.HandleResponse();
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+                context.Response.Headers.Append("WWW-Authenticate", @"Bearer error = ""invalid_token""");
+
+                // Personaliza tu mensaje de error aquí
+                string json = JsonSerializer.Serialize(new { error = "Mensaje de error personalizado" });
+                return context.Response.WriteAsync(json);
+            }
+        };
     });
 
 builder.Services.AddEndpointsApiExplorer();

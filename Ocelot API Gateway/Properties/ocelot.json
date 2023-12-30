@@ -55,7 +55,7 @@
           "Port": 7106
         }
       ],
-      "UpstreamPathTemplate": "/usuarios/login",
+      "UpstreamPathTemplate": "/auth/login",
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
@@ -67,7 +67,7 @@
           "Port": 7106
         }
       ],
-      "UpstreamPathTemplate": "/usuarios/register",
+      "UpstreamPathTemplate": "/auth/register",
       "UpstreamHttpMethod": [ "Post" ]
     }
     // Más rutas aquí...

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace EvaluacionDavidLlopis.Filters;
+namespace Filters;
 
 public class ExceptionFilter(IWebHostEnvironment env)
     : ExceptionFilterAttribute
