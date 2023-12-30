@@ -18,6 +18,10 @@
     //},
     //UsersMicroService
     {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "DownstreamPathTemplate": "/api/Users",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

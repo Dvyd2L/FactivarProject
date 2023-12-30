@@ -1,5 +1,6 @@
 ﻿using DTOs.UsersMS;
 using Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using UsersMicroservice.Models;
@@ -13,7 +14,6 @@ public class UsersController(
     IHashService hashService,
     TokenService tokenService
     ) : ControllerBase
-//) : BasicController<Usuario, Guid>(dbService)
 {
     #region PROPs
     private readonly TokenService _tokenService = tokenService;
@@ -21,10 +21,12 @@ public class UsersController(
     private readonly IDbService<Usuario, Guid> _dbService = dbService;
     #endregion PROPs
 
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Usuario>>> Get()
         => Ok(await _dbService.Read());
 
+    [Authorize]
     [HttpGet("{pk:guid}")]
     public async Task<ActionResult<IEnumerable<Usuario>>> Get([FromRoute] Guid pk)
         => Ok(await _dbService.Read(pk));
@@ -53,7 +55,6 @@ public class UsersController(
         await _dbService.Create(newUser);
 
         return Created();
-        //return await base.Post(newUser);
     }
 
     [HttpPost("/login")]
@@ -75,7 +76,7 @@ public class UsersController(
         if (!validPassword)
             return BadRequest("La contraseña no es correcta");
 
-        ILoginResponse response = _tokenService.GenerarToken(userDB.Email);
+        ILoginResponse response = _tokenService.GenerarToken(userDB.Email, userDB.Id.ToString());
 
         return Ok(response);
     }

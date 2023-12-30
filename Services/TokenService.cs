@@ -13,17 +13,20 @@ public class TokenService(IConfiguration configuration)
     public ILoginResponse GenerarToken(params string[] credenciales)
     {
         string email = credenciales[0];
-        //string rol = credenciales[1];
+        string rol = credenciales[1] ??= "USER";
+        DateTime expirationTime = DateTime.Now.AddDays(30); // tiempo de expiracion
 
         // Los claims construyen la información que va en el payload del token
         List<Claim> claims =
         [
             new Claim(ClaimTypes.Email, email),
-            //new Claim(ClaimTypes.Role, rol),
+            new Claim(ClaimTypes.Role, rol),
         ];
 
-        // Necesitamos la clave de generación de tokens
+        // Necesitamos la clave, audiencia y emisor de generación de tokens
         string clave = configuration["ClaveJWT"] ?? "";
+        string issuer = configuration["IssuerJWT"] ?? "";
+        string audience = configuration["AudienceJWT"] ?? "";
 
         // Fabricamos el token
         SymmetricSecurityKey claveKey = new(Encoding.UTF8.GetBytes(clave));
@@ -31,8 +34,10 @@ public class TokenService(IConfiguration configuration)
 
         // Le damos características
         JwtSecurityToken securityToken = new(
+            issuer: issuer,
+            audience: audience,
             claims: claims,
-            expires: DateTime.Now.AddDays(30), // ⚠️ tiempo de expiracion, puede que JL nos haga modificar esto
+            expires: expirationTime,
             signingCredentials: signinCredentials
         );
 

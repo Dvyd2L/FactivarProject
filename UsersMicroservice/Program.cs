@@ -11,8 +11,10 @@ using UsersMicroservice.Models;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 #region CONFIGs
-string connectionString = new ConfigSetup(builder).GetConnectionString();
-string secret = new ConfigSetup(builder).GetSecret();
+ConfigSetup config = new(builder);
+string connectionString = config.GetConnectionString();
+string secret = config.GetSecret();
+string audience = config.GetAudience();
 #endregion CONFIGs
 
 #region SERVICEs
@@ -40,6 +42,8 @@ builder.Services
     {
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
+        ValidateAudience = true,
+        ValidAudience = audience,
         IssuerSigningKey = new SymmetricSecurityKey(
           Encoding.UTF8.GetBytes(secret))
     });
@@ -77,6 +81,7 @@ else if (app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
 #endregion MIDDLEWAREs
 
