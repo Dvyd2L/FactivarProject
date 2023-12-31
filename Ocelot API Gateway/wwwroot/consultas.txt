@@ -1,0 +1,7 @@
+12/31/2023 15:12:49 - ::1 - /auth/login - POST
+12/31/2023 15:13:53 - ::1 - /auth/login - OPTIONS
+12/31/2023 15:13:53 - ::1 - /auth/login - POST
+12/31/2023 15:13:53 - ::1 - /clientes - GET
+12/31/2023 15:15:06 - ::1 - /auth/login - OPTIONS
+12/31/2023 15:15:06 - ::1 - /auth/login - POST
+12/31/2023 15:15:06 - ::1 - /clientes - GET

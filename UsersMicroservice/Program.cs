@@ -40,7 +40,7 @@ builder.Services.AddDbContext<UsersContext>(options =>
     _ = options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
-builder.Services.AddTransient<IDbService<Usuario, Guid>, DbService<UsersContext, Usuario, Guid>>();
+builder.Services.AddTransient<IDbService<DatosPersonale, Guid>, DbService<UsersContext, DatosPersonale, Guid>>();
 builder.Services.AddTransient<IHashService, HashService>();
 builder.Services.AddTransient<TokenService>();
 

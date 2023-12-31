@@ -8,28 +8,24 @@ Content-Type: text/plain
 # www-authenticate: Bearer
 Authorization: Bearer {{token}}
 
-{
-# "Email": "usuario@example.com",
-# "Password": "$passwordSeguro&0"
-}
-
+""
 ### usuariosMS/api/Users/{pk}
 GET {{UsersMicroservice_HostAddress}}/api/Users/{{pk}} HTTP/1.1
 Content-Type: text/plain
 Authorization: Bearer {{token}}
 
-{
-# "Email": "usuario@example.com",
-# "Password": "$passwordSeguro&0"
-}
+""
 ###
 
 POST {{UsersMicroservice_HostAddress}}/register
 Content-Type: application/json
 
 {
+  "Nombre": "Paco",
+  "Apellidos": "Ratones Campo",
+  "Telefono":"666112233",
   "Email": "paco@gmail.com",
-  "Password": "aA1_bB2$cC3"
+  "Password": "$passwordSeguro&0"
 }
 ###
 
@@ -37,7 +33,7 @@ POST {{UsersMicroservice_HostAddress}}/login
 Content-Type: application/json
 
 {
-  "Email": "usuario@example.com",
+  "Email": "paco@gmail.com",
   "Password": "$passwordSeguro&0"
 }
 ###

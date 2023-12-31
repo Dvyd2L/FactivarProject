@@ -2,7 +2,7 @@
 
 namespace DTOs.UsersMS;
 
-public class UserDTO
+public class LoginUserDTO
 {
     [EmailValidator]
     public required string Email { get; set; }

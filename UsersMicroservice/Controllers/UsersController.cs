@@ -9,49 +9,30 @@ namespace UsersMicroservice.Controllers;
 [ApiController]
 [Authorize]
 public class UsersController(
-    IDbService<Usuario, Guid> dbService
+    IDbService<DatosPersonale, Guid> dbService
     ) : ControllerBase
 {
     #region PROPs
-    private readonly IDbService<Usuario, Guid> _dbService = dbService;
+    private readonly IDbService<DatosPersonale, Guid> _dbService = dbService;
     #endregion PROPs
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Usuario>>> Get()
+    public async Task<ActionResult<IEnumerable<DatosPersonale>>> Get()
     {
-        IEnumerable<Usuario>? result = await _dbService.Read();
+        IEnumerable<DatosPersonale>? result = await _dbService.Read();
 
-        if (result is null)
-            return NotFound();
-
-        List<object> response = [];
-
-        foreach (Usuario item in result)
-        {
-            response.Add(new
-            {
-                item.Id,
-                item.Email,
-            });
-        }
-
-        return Ok(response);
+        return result is null
+            ? NotFound()
+            : Ok(result);
     }
 
     [HttpGet("{pk:guid}")]
-    public async Task<ActionResult<IEnumerable<Usuario>>> Get([FromRoute] Guid pk)
+    public async Task<ActionResult<DatosPersonale>> Get([FromRoute] Guid pk)
     {
-        Usuario? result = await _dbService.Read(pk);
+        DatosPersonale? result = await _dbService.Read(pk);
 
-        if (result is null)
-            return NotFound();
-
-        var response = new
-        {
-            result.Id,
-            result.Email,
-        };
-
-        return Ok(response);
+        return result is null
+            ? NotFound()
+            : Ok(result);
     }
 }

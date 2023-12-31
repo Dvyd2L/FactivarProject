@@ -8,7 +8,7 @@ namespace UsersMicroservice.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController(
-    IDbService<Usuario, Guid> dbService,
+    IDbService<DatosPersonale, Guid> dbService,
     IHashService hashService,
     TokenService tokenService
     ) : ControllerBase
@@ -16,50 +16,66 @@ public class AuthController(
     #region PROPs
     private readonly TokenService _tokenService = tokenService;
     private readonly IHashService _hashService = hashService;
-    private readonly IDbService<Usuario, Guid> _dbService = dbService;
+    private readonly IDbService<DatosPersonale, Guid> _dbService = dbService;
     #endregion PROPs
 
     [HttpPost("/register")]
-    public async Task<IActionResult> Create([FromBody] UserDTO input)
+    public async Task<IActionResult> Register([FromBody] RegisterUserDTO input)
     {
+        // Comprueba si la entrada es nula
         if (input is null)
             return BadRequest("Entrada no válida");
 
-        IEnumerable<Usuario>? users = await _dbService.Read();
+        // Lee los usuarios existentes de la base de datos
+        IEnumerable<DatosPersonale>? users = await _dbService.Read();
+
+        // Comprueba si el email ya está registrado
         string? validMail = users?.FirstOrDefault(x => x.Email == input.Email)?.Email;
 
         if (validMail is not null)
             return BadRequest($"El email {input.Email} ya está registrado");
 
+        // Obtiene el hash de la contraseña
         IHashResult hashResult = _hashService.GetHash(input.Password);
 
-        Usuario newUser = new()
+        // Crea un nuevo objeto DatosPersonale
+        DatosPersonale newUser = new()
         {
+            // No necesitas especificar el Id aquí, EF lo hará por ti
             Email = input.Email,
-            Password = hashResult.Hash,
-            Salt = hashResult.Salt,
+            Nombre = input.Nombre,
+            Apellidos = input.Apellidos,
+            Telefono = input.Telefono,
+            Credenciale = new()
+            {
+                // El IdUsuario se establecerá automáticamente al Id del newUser cuando guardes en la base de datos
+                Password = hashResult.Hash,
+                Salt = hashResult.Salt,
+            },
         };
 
+        // Guarda el nuevo usuario en la base de datos
         await _dbService.Create(newUser);
 
+        // Devuelve un código de estado 201 (Created)
         return Created();
     }
 
     [HttpPost("/login")]
-    public async Task<ActionResult<ILoginResponse>> Login([FromBody] UserDTO input)
+    public async Task<ActionResult<ILoginResponse>> Login([FromBody] LoginUserDTO input)
     {
         if (input is null)
             return BadRequest("Entrada no válida");
 
-        IEnumerable<Usuario>? users = await _dbService.Read();
-        Usuario? userDB = users?.FirstOrDefault(x => x.Email == input.Email);
+        IEnumerable<DatosPersonale>? users = await _dbService.Read();
+        DatosPersonale? userDB = users?.FirstOrDefault(x => x.Email == input.Email);
 
         if (userDB is null)
             return BadRequest($"El email {input.Email} no está registrado");
 
-        IHashResult hashResult = _hashService.GetHash(input.Password, userDB.Salt);
+        IHashResult hashResult = _hashService.GetHash(input.Password, userDB.Credenciale?.Salt);
 
-        bool validPassword = hashResult.Hash == userDB.Password;
+        bool validPassword = hashResult.Hash == userDB.Credenciale?.Password;
         if (!validPassword)
             return BadRequest("La contraseña no es correcta");
 
