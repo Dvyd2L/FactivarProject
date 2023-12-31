@@ -1,6 +1,7 @@
 using Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Middlewares;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Services;
@@ -12,6 +13,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 #region CONFIGs
 string basePath = Directory.GetCurrentDirectory();
 string ocelotConfigFilePath = Path.Combine(basePath, "Properties", "ocelot.json");
+builder.Configuration.AddJsonFile(ocelotConfigFilePath, optional: false, reloadOnChange: true);
 
 ConfigSetup cs = new(builder);
 string secret = cs.GetSecret();
@@ -20,13 +22,10 @@ string issuer = cs.GetIssuer();
 SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(secret));
 #endregion CONFIGs
 
-#region CONFIGs
-builder.Configuration.AddJsonFile(ocelotConfigFilePath, optional: false, reloadOnChange: true);
-#endregion CONFIGs
-
 #region SERVICEs
 builder.Services.AddControllers();
 builder.Services.AddOcelot().AddSingletonDefinedAggregator<ServiceAggregator>();
+//builder.Services.AddOcelot();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -80,6 +79,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+#region CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        _ = builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+
+    options.AddPolicy("DevCorsPolicy", builder =>
+    {
+        _ = builder.WithOrigins("https://www.localhost:4200").AllowAnyMethod().AllowAnyHeader();
+    });
+
+    options.AddPolicy("ProdCorsPolicy", builder =>
+    {
+        // builder.WithOrigins("https://www.MyOcelotApiGw.com").WithMethods("GET").AllowAnyHeader();
+        _ = builder.WithOrigins("https://www.hosting.MyOcelotApiGw.com").AllowAnyMethod().AllowAnyHeader();
+    });
+});
+#endregion CORS Policy
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 #endregion SERVICEs
@@ -94,8 +114,11 @@ if (app.Environment.IsDevelopment())
     _ = app.UseSwaggerUI();
 }
 
+app.UseMiddleware<PreflightRequestMiddleware>();
+app.UseMiddleware<LogRequestMiddleware>();
 app.UseOcelot().Wait();
 app.UseHttpsRedirection();
+app.UseCors();
 app.UseAuthorization();
 #endregion MIDDLEWAREs
 

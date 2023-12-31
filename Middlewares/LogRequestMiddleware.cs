@@ -24,32 +24,17 @@ public class LogRequestMiddleware(RequestDelegate next, IWebHostEnvironment env)
         string metodo = httpContext.Request.Method;
         string ruta = httpContext.Request.Path.ToString();
 
-        if (HttpMethods.IsGet(metodo))
-        {
-            LogWriter(IP, ruta);
-        }
+        await LogWriter(IP, ruta, metodo);
 
         await next(httpContext);
     }
 
-    private void LogWriter(string IP, string ruta)
+    private async Task LogWriter(string IP, string path, string method)
     {
         using (StreamWriter writer = new(_logFile, append: true))
         {
-            writer.WriteLine($"{DateTime.Now} - {IP} - {ruta}");
+            await writer.WriteLineAsync($"{DateTime.Now} - {IP} - {path} - {method}");
         }
     }
-
-    //private async Task PostIPBlocker(HttpContext httpContext, string IP, string metodo)
-    //{
-    //    bool isInvalidMethod = HttpMethods.IsPost(metodo);
-
-    //    if (IP == _IPv6Baneada && isInvalidMethod) // Bloquearía las peticiones POST de una IP concreta
-    //    {
-    //        httpContext.Response.StatusCode = 401;
-    //        httpContext.Response.ContentType = "plain/text";
-    //        await httpContext.Response.WriteAsync("No tienes derecho");
-    //    }
-    //}
     #endregion
 }
