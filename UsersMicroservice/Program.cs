@@ -41,6 +41,7 @@ builder.Services.AddDbContext<UsersContext>(options =>
 });
 
 builder.Services.AddTransient<IDbService<DatosPersonale, Guid>, DbService<UsersContext, DatosPersonale, Guid>>();
+builder.Services.AddTransient<IDbService<Credenciale, Guid>, DbService<UsersContext, Credenciale, Guid>>();
 builder.Services.AddTransient<IHashService, HashService>();
 builder.Services.AddTransient<TokenService>();
 

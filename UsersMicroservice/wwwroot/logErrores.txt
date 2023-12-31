@@ -1,0 +1,6 @@
+
+IP:                       ::1
+Método:                      POST
+Ruta:                    /login
+Error: Unable to resolve service for type 'Interfaces.IDbService`2[UsersMicroservice.Models.Credenciale,System.Guid]' while attempting to activate 'UsersMicroservice.Controllers.AuthController'.
+Fecha:       31/12/2023 21:01:03
