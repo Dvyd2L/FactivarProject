@@ -13,13 +13,15 @@ namespace UsersMicroservice.Controllers;
 /// <param name="dbCredencialesService">Servicio de base de datos para operaciones relacionadas con Credenciales.</param>
 /// <param name="hashService">Servicio para calcular hashes de contraseñas.</param>
 /// <param name="tokenService">Servicio para generar tokens de autenticación.</param>
+/// <param name="fileService">Servicio para almacenar avatares de usuario.</param>
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController(
     IDbService<DatosPersonale, Guid> dbDatosPersonalesService,
     IDbService<Credenciale, Guid> dbCredencialesService,
     IHashService hashService,
-    TokenService tokenService
+    TokenService tokenService,
+    IFileHandler fileService
     ) : ControllerBase
 {
     #region PROPs
@@ -27,6 +29,11 @@ public class AuthController(
     /// Servicio para generar tokens de autenticación.
     /// </summary>
     private readonly TokenService _tokenService = tokenService;
+
+    /// <summary>
+    /// Servicio para almacenar avatares de usuario.
+    /// </summary>
+    private readonly IFileHandler _fileService = fileService;
 
     /// <summary>
     /// Servicio para calcular hashes de contraseñas.
@@ -77,6 +84,7 @@ public class AuthController(
             Nombre = input.Nombre,
             Apellidos = input.Apellidos,
             Telefono = input.Telefono,
+            AvatarUrl = null,
             Credenciale = new()
             {
                 // El IdUsuario se establecerá automáticamente al Id del newUser cuando guardes en la base de datos
@@ -85,11 +93,17 @@ public class AuthController(
             },
         };
 
+        if (input.Avatar is not null)
+        {
+            // Almacenamos la URL del avatar del usuario
+            newUser.AvatarUrl = await SaveAvatar(input.Avatar, $"{newUser.Nombre}-{newUser.Id}");
+        }
+
         // Guarda el nuevo usuario en la base de datos
         await _dbDatosPersonalesService.Create(newUser);
 
         // Devuelve un código de estado 201 (Created)
-        return Created();
+        return CreatedAtAction(nameof(Register), newUser);
     }
 
     /// <summary>
@@ -124,6 +138,43 @@ public class AuthController(
         ILoginResponse response = _tokenService.GenerarToken(userDB.Email, userDB.Id.ToString());
 
         return Ok(response);
+    }
+
+    /// <summary>
+    /// Guarda el avatar del usuario y devuelve la URL de la imagen.
+    /// Si no se envía un avatar, devuelve una cadena vacía.
+    /// Si se envía un avatar, lo almacena en el servidor y devuelve la URL de la imagen.
+    /// Si se produce algún error, devuelve una cadena vacía.
+    /// El avatar se almacena en la carpeta "Images" del servidor.
+    /// El nombre del archivo es el Id del usuario.
+    /// La extensión del archivo es la extensión del avatar.
+    /// El tipo de contenido del archivo es el tipo de contenido del avatar.
+    /// </summary>
+    /// <param name="avatar">Archivo de imagen del avatar elegido por el usuario</param>
+    /// <returns>URL de la direccion del avatar del usuario</returns>
+    private async Task<string> SaveAvatar(IFormFile? avatar, string? name = null)
+    {
+        if (avatar is null)
+            return string.Empty;
+
+        string avatarUrl;
+
+        using (MemoryStream ms = new())
+        {
+            // Extraemos la imagen de la petición
+            await avatar.CopyToAsync(ms);
+
+            // La convertimos a un array de bytes que es lo que necesita el método de guardar
+            byte[] contenido = ms.ToArray();
+
+            // La extensión la necesitamos para guardar el archivo
+            string extension = Path.GetExtension(avatar.FileName);
+
+            // Almacenamos la URL del avatar del usuario
+            avatarUrl = await _fileService.Save(contenido, extension, "Images", avatar.ContentType, name);
+        }
+
+        return avatarUrl;
     }
     #endregion METHODs
 }

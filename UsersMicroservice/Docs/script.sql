@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[DatosPersonales] (
     [Nombre]    NVARCHAR (25)    NOT NULL,
     [Apellidos] NVARCHAR (100)   NOT NULL,
     [Telefono]  CHAR (15)        NULL,
+	[AvatarUrl] NVARCHAR (MAX) NULL,
     [Email]     NVARCHAR (100)   NOT NULL,
 
     PRIMARY KEY CLUSTERED ([Id] ASC),

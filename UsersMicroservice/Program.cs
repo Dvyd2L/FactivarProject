@@ -23,7 +23,9 @@ SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(secret));
 #endregion CONFIGs
 
 #region SERVICEs
-builder.Services
+IServiceCollection services = builder.Services;
+
+services
     .AddControllers(
     (option) =>
     {
@@ -34,19 +36,22 @@ builder.Services
         o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
-builder.Services.AddDbContext<UsersContext>(options =>
+services.AddDbContext<UsersContext>(options =>
 {
     _ = options.UseSqlServer(connectionString);
     _ = options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
-builder.Services.AddTransient<IDbService<DatosPersonale, Guid>, DbService<UsersContext, DatosPersonale, Guid>>();
-builder.Services.AddTransient<IDbService<Credenciale, Guid>, DbService<UsersContext, Credenciale, Guid>>();
-builder.Services.AddTransient<IHashService, HashService>();
-builder.Services.AddTransient<TokenService>();
+services.AddHttpContextAccessor();
+
+services.AddTransient<IFileHandler, LocalFileService>();
+services.AddTransient<IDbService<DatosPersonale, Guid>, DbService<UsersContext, DatosPersonale, Guid>>();
+services.AddTransient<IDbService<Credenciale, Guid>, DbService<UsersContext, Credenciale, Guid>>();
+services.AddTransient<IHashService, HashService>();
+services.AddTransient<TokenService>();
 
 #region AUTHENTICATION
-builder.Services
+services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -66,7 +71,7 @@ builder.Services
 #endregion AUTHENTICATION
 
 #region CORS Policy
-builder.Services.AddCors(options =>
+services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
@@ -77,8 +82,8 @@ builder.Services.AddCors(options =>
 #endregion CORS Policy
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

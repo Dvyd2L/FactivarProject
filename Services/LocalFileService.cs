@@ -10,7 +10,7 @@ namespace Services;
 /// </summary>
 /// <param name="env">Una instancia de IWebHostEnvironment para acceder al entorno de alojamiento web.</param>
 /// <param name="httpContextAccessor">Una instancia de IHttpContextAccessor para acceder al contexto HTTP actual.</param>
-public class LocalFileHandler(IWebHostEnvironment env,
+public class LocalFileService(IWebHostEnvironment env,
     IHttpContextAccessor httpContextAccessor) : IFileHandler
 {
     #region PROPs
@@ -65,12 +65,13 @@ public class LocalFileHandler(IWebHostEnvironment env,
         string extension,
         string folder,
         string path,
-        string contentType
+        string contentType,
+        string? name = null
         )
     {
         await Delete(path, folder);
 
-        return await Save(content, extension, folder, contentType);
+        return await Save(content, extension, folder, contentType, name);
     }
 
     /// <summary>
@@ -85,11 +86,13 @@ public class LocalFileHandler(IWebHostEnvironment env,
         byte[] content,
         string extension,
         string folder,
-        string contentType
+        string contentType,
+        string? name = null
         )
     {
-        // Creamos un nombre aleatorio con la extensión
-        string fileName = $"{Guid.NewGuid()}{extension}";
+        // En caso de no recibir nombre cCreamos un nombre aleatorio con la extensión
+        name ??= Guid.NewGuid().ToString();
+        string fileName = $"{name}_{contentType}{extension}";
 
         // La ruta será wwwroot/folder (en este caso imagenes)
         string directory = Path.Combine(_env.WebRootPath, folder);

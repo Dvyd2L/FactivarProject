@@ -13,6 +13,8 @@ public partial class DatosPersonale
 
     public string? Telefono { get; set; }
 
+    public string? AvatarUrl { get; set; }
+
     public string Email { get; set; } = null!;
 
     public virtual Credenciale? Credenciale { get; set; }

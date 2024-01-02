@@ -35,14 +35,14 @@ public partial class UsersContext : DbContext
             _ = entity.HasOne(d => d.IdUsuarioNavigation).WithOne(p => p.Credenciale)
                 .HasForeignKey<Credenciale>(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Credencia__IdUsu__4D94879B");
+                .HasConstraintName("FK__Credencia__IdUsu__5EBF139D");
         });
 
         _ = modelBuilder.Entity<DatosPersonale>(entity =>
         {
-            _ = entity.HasKey(e => e.Id).HasName("PK__DatosPer__3214EC0794CA47CB");
+            _ = entity.HasKey(e => e.Id).HasName("PK__tmp_ms_x__3214EC078AE81D96");
 
-            _ = entity.HasIndex(e => e.Email, "UQ__DatosPer__A9D10534F969792E").IsUnique();
+            _ = entity.HasIndex(e => e.Email, "UQ__tmp_ms_x__A9D105343CE9FB58").IsUnique();
 
             _ = entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             _ = entity.Property(e => e.Apellidos).HasMaxLength(100);
