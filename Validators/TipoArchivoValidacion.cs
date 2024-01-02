@@ -25,8 +25,6 @@ public class TipoArchivoValidacion : ValidationAttribute
         }
 
         // IFormFile es el dato tal y como entra desde la post
-
-
         if (value is not IFormFile formFile)
         {
             return ValidationResult.Success;

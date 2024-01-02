@@ -2,10 +2,8 @@
 
 namespace Validators;
 
-public class PrecioValidacion : ValidationAttribute
+public class PrecioValidacion() : ValidationAttribute
 {
-    public PrecioValidacion() { }
-
     // value representa al archivo
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {

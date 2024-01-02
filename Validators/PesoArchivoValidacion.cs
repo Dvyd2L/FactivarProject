@@ -3,16 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Validators;
 
-public class PesoArchivoValidacion
-    : ValidationAttribute
+public class PesoArchivoValidacion(int PesoMaximoEnMegaBytes)
+        : ValidationAttribute
 {
     #region PROPs
-    private readonly int pesoMaximoEnMegaBytes;
-    #endregion
-
-    #region CONSTRUCTORs
-    public PesoArchivoValidacion(int PesoMaximoEnMegaBytes)
-        => pesoMaximoEnMegaBytes = PesoMaximoEnMegaBytes;
+    private readonly int _pesoMaximoEnMegaBytes = PesoMaximoEnMegaBytes;
     #endregion
 
     #region METHODs
@@ -35,9 +30,9 @@ public class PesoArchivoValidacion
         }
 
         // Si sobrepasa el tamaño devolvemos un error
-        if (formFile.Length > pesoMaximoEnMegaBytes * 1024 * 1024)
+        if (formFile.Length > _pesoMaximoEnMegaBytes * 1024 * 1024)
         {
-            return new ValidationResult($"El peso del archivo no debe ser mayor a {pesoMaximoEnMegaBytes}mb");
+            return new ValidationResult($"El peso del archivo no debe ser mayor a {_pesoMaximoEnMegaBytes}mb");
         }
 
         // Si hemos llegado hasta aquí es que todo ha ido bien y el archivo cumple con el tamaño especificado en el DTO
