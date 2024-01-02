@@ -1,10 +1,15 @@
-﻿namespace Interfaces;
+﻿using System.Linq.Expressions;
+
+namespace Interfaces;
 public interface IDbService<TModel, TPrimaryKey>
     where TModel : class
 {
     #region GET
     Task<IEnumerable<TModel>?> Read(bool tracking = false);
+    Task<IEnumerable<TModel>?> Read(bool tracking = false, params Expression<Func<TModel, object>>[] include);
     Task<TModel?> Read(TPrimaryKey pk, bool tracking = false);
+    Task<TModel?> Read(TPrimaryKey pk, bool tracking = false, params Expression<Func<TModel, object>>[] include);
+    Task<TModel?> Read<TField>(Expression<Func<TModel, TField>> fieldSelector, TField value, bool tracking = false);
     #endregion GET
 
     #region POST

@@ -1,5 +1,6 @@
 ﻿using DTOs.UsersMS;
 using Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using UsersMicroservice.Models;
@@ -9,6 +10,7 @@ namespace UsersMicroservice.Controllers;
 /// <summary>
 /// Controlador de autenticación que maneja las operaciones de registro y inicio de sesión.
 /// </summary>
+/// <param name="httpContextAccessor">Proporciona acceso al contexto HTTP actual.</param>
 /// <param name="dbDatosPersonalesService">Servicio de base de datos para operaciones relacionadas con DatosPersonales.</param>
 /// <param name="dbCredencialesService">Servicio de base de datos para operaciones relacionadas con Credenciales.</param>
 /// <param name="hashService">Servicio para calcular hashes de contraseñas.</param>
@@ -17,6 +19,7 @@ namespace UsersMicroservice.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController(
+    IHttpContextAccessor httpContextAccessor,
     IDbService<DatosPersonale, Guid> dbDatosPersonalesService,
     IDbService<Credenciale, Guid> dbCredencialesService,
     IHashService hashService,
@@ -39,6 +42,11 @@ public class AuthController(
     /// Servicio para calcular hashes de contraseñas.
     /// </summary>
     private readonly IHashService _hashService = hashService;
+
+    /// <summary>
+    /// Proporciona acceso al contexto HTTP actual.
+    /// </summary>
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
     /// <summary>
     /// Servicio de base de datos para operaciones relacionadas con DatosPersonales.
@@ -138,6 +146,64 @@ public class AuthController(
         ILoginResponse response = _tokenService.GenerarToken(userDB.Email, userDB.Id.ToString());
 
         return Ok(response);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="textoEnlace"></param>
+    /// <returns></returns>
+    [HttpGet("/changepassword/{textoEnlace}")]
+    public async Task<IActionResult> ChangePassword(string textoEnlace)
+    {
+        Credenciale? usuarioDB = await _dbCredencialesService.Read(fieldSelector: (e) => e.EnlaceCambioPass, value: textoEnlace, tracking: true);
+
+        return usuarioDB == null ? BadRequest("Enlace incorrecto") : (ActionResult)Ok("Enlace correcto");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [HttpPut("/changepassword")]
+    public async Task<ActionResult> ChangePassword([FromBody] LoginUserDTO input)
+    {
+        IEnumerable<DatosPersonale>? usersDB = await _dbDatosPersonalesService.Read(tracking: true, include: (e) => e.Credenciale);
+        DatosPersonale? usuarioDB = usersDB?.FirstOrDefault((u) => u.Email == input.Email);
+
+        if (usuarioDB == null)
+        {
+            return Unauthorized("Usuario no registrado");
+        }
+        else if (usuarioDB.Credenciale?.Password != _hashService.GetHash(input.Password, usuarioDB.Credenciale?.Salt).Hash)
+        {
+            return Unauthorized("Contraseña incorrecta");
+        }
+
+        // Creamos un string aleatorio 
+        Guid guid = Guid.NewGuid();
+        string textoEnlace = Convert.ToBase64String(guid.ToByteArray());
+
+        // Eliminar caracteres que pueden causar problemas
+        textoEnlace = textoEnlace
+            .Replace("=", "")
+            .Replace("+", "")
+            .Replace("/", "")
+            .Replace("?", "")
+            .Replace("&", "")
+            .Replace("!", "")
+            .Replace("¡", "");
+
+        string? enlaceActual = usuarioDB.Credenciale?.EnlaceCambioPass;
+        enlaceActual = textoEnlace;
+
+        await _dbDatosPersonalesService.Update(usuarioDB);
+
+        string ruta = $"{_httpContextAccessor?.HttpContext?.Request.Scheme}://{_httpContextAccessor?.HttpContext?.Request.Host}/changepassword/{textoEnlace}";
+
+        return Ok(ruta);
     }
 
     /// <summary>

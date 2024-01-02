@@ -31,6 +31,12 @@ public class DbService<TContext, TModel, TPrimaryKey>(TContext context)
             : throw new ApplicationException($"Cannot find primary key property for type {type.FullName}");
     }
 
+    private static Expression<Func<TModel, bool>> BuildEqualsExpression<TField>(Expression<Func<TModel, TField>> fieldSelector, TField value)
+    {
+        BinaryExpression equalExpression = Expression.Equal(fieldSelector.Body, Expression.Constant(value));
+        return Expression.Lambda<Func<TModel, bool>>(equalExpression, fieldSelector.Parameters);
+    }
+
     #region GET
     public async Task<IEnumerable<TModel>?> Read(bool tracking = false)
     {
@@ -54,6 +60,51 @@ public class DbService<TContext, TModel, TPrimaryKey>(TContext context)
         TModel? result = tracking
             ? await _dbTable.AsTracking().SingleOrDefaultAsync(condition)
             : await _dbTable.FindAsync(pk);
+
+        return result;
+    }
+
+    public async Task<IEnumerable<TModel>?> Read(bool tracking = false, params Expression<Func<TModel, object>>[] include)
+    {
+        IQueryable<TModel> query = tracking
+            ? _dbTable.AsTracking().AsQueryable()
+            : _dbTable.AsQueryable();
+
+        foreach (Expression<Func<TModel, object>> includeProperty in include)
+        {
+            query = query.Include(includeProperty);
+        }
+
+        return await query.ToArrayAsync();
+    }
+
+    public async Task<TModel?> Read(TPrimaryKey pk, bool tracking = false, params Expression<Func<TModel, object>>[] include)
+    {
+        IQueryable<TModel> query = tracking
+            ? _dbTable.AsTracking().AsQueryable()
+            : _dbTable.AsQueryable();
+
+        foreach (Expression<Func<TModel, object>> includeProperty in include)
+        {
+            query = query.Include(includeProperty);
+        }
+
+        PropertyInfo keyProperty = GetPrimaryKeyInfo<TModel>();
+        ParameterExpression parameter = Expression.Parameter(typeof(TModel), "e");
+        Expression<Func<TModel, bool>> condition = Expression.Lambda<Func<TModel, bool>>(
+            Expression.Equal(
+                Expression.Property(parameter, keyProperty.Name),
+                Expression.Constant(pk)),
+            parameter);
+
+        return await query.SingleOrDefaultAsync(condition);
+    }
+
+    public async Task<TModel?> Read<TField>(Expression<Func<TModel, TField>> fieldSelector, TField value, bool tracking = false)
+    {
+        TModel? result = tracking
+            ? await _dbTable.AsTracking().SingleOrDefaultAsync(BuildEqualsExpression(fieldSelector, value))
+            : await _dbTable.SingleOrDefaultAsync(BuildEqualsExpression(fieldSelector, value));
 
         return result;
     }

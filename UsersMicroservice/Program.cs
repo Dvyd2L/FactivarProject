@@ -14,6 +14,7 @@ using UsersMicroservice.Models;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 #region CONFIGs
+ConfigurationManager configuration = builder.Configuration;
 ConfigSetup cs = new(builder);
 string connectionString = cs.GetConnectionString();
 string secret = cs.GetSecret();
@@ -53,6 +54,11 @@ services.AddTransient<TokenService>();
 #region AUTHENTICATION
 services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddGoogle(googleOptions =>
+    {
+        googleOptions.ClientId = configuration["Authentication:Google:ClientId"] ?? "Not set yet";
+        googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"] ?? "Not set yet";
+    })
     .AddJwtBearer(options =>
     {
         TokenValidationParameters tvp = new()
