@@ -8,8 +8,17 @@ using System.Text;
 
 namespace Services;
 
+/// <summary>
+/// Clase que agrega las respuestas de varios servicios en una sola respuesta.
+/// Implementa la interfaz IDefinedAggregator.
+/// </summary>
 public class ServiceAggregator : IDefinedAggregator
 {
+    /// <summary>
+    /// Construye una cadena JSON a partir de una lista de respuestas de servicio.
+    /// </summary>
+    /// <param name="serviceResponses">La lista de respuestas de servicio.</param>
+    /// <returns>Una cadena JSON que representa las respuestas de servicio.</returns>
     private static string BuildJSON(List<string> serviceResponses)
     {
         StringBuilder jsonBuilder = new('{');
@@ -30,6 +39,11 @@ public class ServiceAggregator : IDefinedAggregator
         return jsonBuilder.ToString();
     }
 
+    /// <summary>
+    /// Agrega las respuestas de varios servicios en una sola respuesta.
+    /// </summary>
+    /// <param name="responses">La lista de respuestas de HttpContext a agregar.</param>
+    /// <returns>Una tarea que representa la operación de agregación asíncrona y devuelve una respuesta agregada.</returns>
     public async Task<DownstreamResponse> Aggregate(List<HttpContext> responses)
     {
         List<string> serviceResponses = [];

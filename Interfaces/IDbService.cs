@@ -3,8 +3,8 @@ public interface IDbService<TModel, TPrimaryKey>
     where TModel : class
 {
     #region GET
-    Task<IEnumerable<TModel>?> Read();
-    Task<TModel?> Read(TPrimaryKey pk);
+    Task<IEnumerable<TModel>?> Read(bool tracking = false);
+    Task<TModel?> Read(TPrimaryKey pk, bool tracking = false);
     #endregion GET
 
     #region POST

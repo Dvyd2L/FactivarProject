@@ -1,5 +1,8 @@
 ﻿using Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Services;
 
@@ -14,18 +17,43 @@ public class DbService<TContext, TModel, TPrimaryKey>(TContext context)
     #endregion PROPs
 
     #region METHODs
+    private static PropertyInfo GetPrimaryKeyInfo<T>()
+        where T : class
+    {
+        Type type = typeof(T);
+        List<PropertyInfo> allProperties = type
+            .GetProperties()
+            .Where(prop => prop.IsDefined(typeof(KeyAttribute), false))
+            .ToList();
+
+        return allProperties.Count == 1
+            ? allProperties[0]
+            : throw new ApplicationException($"Cannot find primary key property for type {type.FullName}");
+    }
 
     #region GET
-    public async Task<IEnumerable<TModel>?> Read()
+    public async Task<IEnumerable<TModel>?> Read(bool tracking = false)
     {
-        IEnumerable<TModel>? result = await _dbTable.ToArrayAsync();
+        TModel[] result = tracking
+            ? await _dbTable.AsTracking().ToArrayAsync()
+            : await _dbTable.ToArrayAsync();
 
         return result;
     }
 
-    public async Task<TModel?> Read(TPrimaryKey pk)
+    public async Task<TModel?> Read(TPrimaryKey pk, bool tracking = false)
     {
-        TModel? result = await _dbTable.FindAsync(pk);
+        PropertyInfo keyProperty = GetPrimaryKeyInfo<TModel>();
+        ParameterExpression parameter = Expression.Parameter(typeof(TModel), "e");
+        Expression<Func<TModel, bool>> condition = Expression.Lambda<Func<TModel, bool>>(
+            Expression.Equal(
+                Expression.Property(parameter, keyProperty.Name),
+                Expression.Constant(pk)),
+            parameter);
+
+        TModel? result = tracking
+            ? await _dbTable.AsTracking().SingleOrDefaultAsync(condition)
+            : await _dbTable.FindAsync(pk);
 
         return result;
     }

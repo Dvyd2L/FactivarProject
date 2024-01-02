@@ -8,8 +8,23 @@ using System.Text;
 
 namespace Services;
 
+/// <summary>
+/// Clase que proporciona funcionalidades para generar tokens de autenticación.
+/// </summary>
+/// <param name="configuration">Una instancia de IConfiguration para acceder a la configuración de la aplicación.</param>
 public class TokenService(IConfiguration configuration)
 {
+    /// <summary>
+    /// Una instancia de IConfiguration para acceder a la configuración de la aplicación.
+    /// </summary>
+    private readonly IConfiguration _configuration = configuration;
+
+    /// <summary>
+    /// Genera un token de autenticación para un usuario.
+    /// </summary>
+    /// <param name="credenciales">Las credenciales del usuario para el cual se generará el token. 
+    /// Debe contener el correo electrónico en el primer índice y el rol en el segundo índice.</param>
+    /// <returns>Una respuesta de inicio de sesión que contiene el correo electrónico del usuario y el token de autenticación.</returns>
     public ILoginResponse GenerarToken(params string[] credenciales)
     {
         string email = credenciales[0];
@@ -23,10 +38,15 @@ public class TokenService(IConfiguration configuration)
             new Claim(ClaimTypes.Role, rol),
         ];
 
+        foreach (string item in credenciales.Skip(2))
+        {
+            claims.Add(new Claim(nameof(item), item));
+        }
+
         // Necesitamos la clave, audiencia y emisor de generación de tokens
-        string clave = configuration["ClaveJWT"] ?? "";
-        string issuer = configuration["IssuerJWT"] ?? "";
-        string audience = configuration["AudienceJWT"] ?? "";
+        string clave = _configuration["ClaveJWT"] ?? "";
+        string issuer = _configuration["IssuerJWT"] ?? "";
+        string audience = _configuration["AudienceJWT"] ?? "";
 
         // Fabricamos el token
         SymmetricSecurityKey claveKey = new(Encoding.UTF8.GetBytes(clave));
