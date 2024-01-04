@@ -1,8 +1,9 @@
 ﻿using Helpers;
-using Interfaces;
+using Helpers.Interfaces;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -64,7 +65,7 @@ public class HashService(IConfiguration configuration) : IHashService
         return new HashResult(hash, salt);
     }
 
-    public ILoginResponse GenerarToken(params string[] credenciales)
+    public string GenerarToken(params string[] credenciales)
     {
         string email = credenciales[0];
         // Los claims construyen la información que va en el payload del token
@@ -91,7 +92,7 @@ public class HashService(IConfiguration configuration) : IHashService
         // Lo pasamos a string para devolverlo
         string tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
 
-        return new LoginResponse(email, tokenString);
+        return tokenString;
     }
     #endregion
 }

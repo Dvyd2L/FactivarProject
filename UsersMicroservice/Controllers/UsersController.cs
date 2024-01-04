@@ -1,6 +1,6 @@
-﻿using Interfaces;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Interfaces;
 using UsersMicroservice.Models;
 
 namespace UsersMicroservice.Controllers;

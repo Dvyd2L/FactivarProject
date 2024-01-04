@@ -1,6 +1,6 @@
-﻿using Interfaces;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Services.Interfaces;
 
 namespace Services;
 
@@ -92,7 +92,7 @@ public class LocalFileService(IWebHostEnvironment env,
     {
         // En caso de no recibir nombre cCreamos un nombre aleatorio con la extensión
         name ??= Guid.NewGuid().ToString();
-        string fileName = $"{name}_{contentType}{extension}";
+        string fileName = $"{name}_{contentType.Replace('/', '_')}{extension}";
 
         // La ruta será wwwroot/folder (en este caso imagenes)
         string directory = Path.Combine(_env.WebRootPath, folder);

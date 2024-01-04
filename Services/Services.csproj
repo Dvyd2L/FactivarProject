@@ -18,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Interfaces\Interfaces.csproj" />
+		<ProjectReference Include="..\DTOs\DTOs.csproj" />
 		<ProjectReference Include="..\Utils\Helpers.csproj" />
 	</ItemGroup>
 

@@ -1,5 +1,5 @@
-﻿using Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Services.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -49,17 +49,24 @@ public class DbService<TContext, TModel, TPrimaryKey>(TContext context)
 
     public async Task<TModel?> Read(TPrimaryKey pk, bool tracking = false)
     {
-        PropertyInfo keyProperty = GetPrimaryKeyInfo<TModel>();
-        ParameterExpression parameter = Expression.Parameter(typeof(TModel), "e");
-        Expression<Func<TModel, bool>> condition = Expression.Lambda<Func<TModel, bool>>(
-            Expression.Equal(
-                Expression.Property(parameter, keyProperty.Name),
-                Expression.Constant(pk)),
-            parameter);
+        TModel? result;
 
-        TModel? result = tracking
-            ? await _dbTable.AsTracking().SingleOrDefaultAsync(condition)
-            : await _dbTable.FindAsync(pk);
+        if (tracking)
+        {
+            PropertyInfo keyProperty = GetPrimaryKeyInfo<TModel>();
+            ParameterExpression parameter = Expression.Parameter(typeof(TModel), "e");
+            Expression<Func<TModel, bool>> condition = Expression.Lambda<Func<TModel, bool>>(
+                Expression.Equal(
+                    Expression.Property(parameter, keyProperty.Name),
+                    Expression.Constant(pk)),
+                parameter);
+
+            result = await _dbTable.AsTracking().SingleOrDefaultAsync(condition);
+        }
+        else
+        {
+            result = await _dbTable.FindAsync(pk);
+        }
 
         return result;
     }

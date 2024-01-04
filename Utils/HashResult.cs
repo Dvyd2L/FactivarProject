@@ -1,4 +1,4 @@
-﻿using Interfaces;
+﻿using Helpers.Interfaces;
 
 namespace Helpers;
 

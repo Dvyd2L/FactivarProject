@@ -1,4 +1,4 @@
-﻿namespace Interfaces;
+﻿namespace Helpers.Interfaces;
 
 public interface IHashResult
 {

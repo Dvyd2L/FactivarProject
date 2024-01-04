@@ -1,6 +1,4 @@
-﻿using Helpers;
-using Interfaces;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -25,7 +23,7 @@ public class TokenService(IConfiguration configuration)
     /// <param name="credenciales">Las credenciales del usuario para el cual se generará el token. 
     /// Debe contener el correo electrónico en el primer índice y el rol en el segundo índice.</param>
     /// <returns>Una respuesta de inicio de sesión que contiene el correo electrónico del usuario y el token de autenticación.</returns>
-    public ILoginResponse GenerarToken(params string[] credenciales)
+    public string GenerarToken(params string[] credenciales)
     {
         string email = credenciales[0];
         string rol = credenciales[1] ??= "USER";
@@ -64,6 +62,6 @@ public class TokenService(IConfiguration configuration)
         // Lo pasamos a string para devolverlo
         string tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
 
-        return new LoginResponse(email, tokenString);
+        return tokenString;
     }
 }

@@ -25,7 +25,9 @@ SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(secret));
 #region SERVICEs
 builder.Services.AddControllers();
 builder.Services.AddOcelot().AddSingletonDefinedAggregator<ServiceAggregator>();
-//builder.Services.AddOcelot();
+
+builder.Services.AddTransient<PreflightRequestMiddleware>();
+builder.Services.AddTransient<LogRequestMiddleware>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

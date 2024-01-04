@@ -30,7 +30,8 @@ Content-Type: application/json
   "Nombre": "Paco",
   "Apellidos": "Ratones Campo",
   "Telefono":"666112233",
-  "Email": "paco3@gmail.com",
+  "Email": "usuario@example.com",
+# "Email": "paco3@gmail.com",
   "Password": "$passwordSeguro&0"
 }
 

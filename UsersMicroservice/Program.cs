@@ -1,12 +1,12 @@
 using Filters;
 using Helpers;
-using Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Middlewares;
 using Services;
+using Services.Interfaces;
 using System.Text;
 using System.Text.Json.Serialization;
 using UsersMicroservice.Models;
@@ -50,6 +50,7 @@ services.AddTransient<IDbService<DatosPersonale, Guid>, DbService<UsersContext, 
 services.AddTransient<IDbService<Credenciale, Guid>, DbService<UsersContext, Credenciale, Guid>>();
 services.AddTransient<IHashService, HashService>();
 services.AddTransient<TokenService>();
+services.AddTransient<LogRequestMiddleware>();
 
 #region AUTHENTICATION
 services

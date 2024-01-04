@@ -10,3 +10,21 @@ Método:                       GET
 Ruta: /api/Users/b2762bc8-6416-49bc-a8a0-45262b6b1893
 Error: Cannot find primary key property for type UsersMicroservice.Models.DatosPersonale
 Fecha:       02/01/2024 18:17:31
+
+IP:                       ::1
+Método:                      POST
+Ruta:                    /login
+Error: Cannot find primary key property for type UsersMicroservice.Models.Credenciale
+Fecha:       04/01/2024 12:51:33
+
+IP:                       ::1
+Método:                      POST
+Ruta:                    /login
+Error: Cannot find primary key property for type UsersMicroservice.Models.Credenciale
+Fecha:       04/01/2024 12:53:12
+
+IP:                       ::1
+Método:                      POST
+Ruta:                 /register
+Error: Could not find a part of the path 'C:\Dev\.NET\MicroservicesScheme\UsersMicroservice\wwwroot\Images\David-00000000-0000-0000-0000-000000000000_image\png.png'.
+Fecha:       04/01/2024 14:21:17

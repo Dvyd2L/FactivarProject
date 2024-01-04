@@ -1,8 +1,10 @@
-﻿using DTOs.UsersMS;
-using Interfaces;
+﻿using DTOs.Interfaces;
+using DTOs.UsersMS;
+using Helpers.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
+using Services.Interfaces;
 using UsersMicroservice.Models;
 
 namespace UsersMicroservice.Controllers;
@@ -66,7 +68,7 @@ public class AuthController(
     /// <param name="input">Los datos del usuario a registrar.</param>
     /// <returns>Un IActionResult que representa el resultado de la operación de registro.</returns>
     [HttpPost("/register")]
-    public async Task<IActionResult> Register([FromBody] RegisterUserDTO input)
+    public async Task<IActionResult> Register([FromForm] RegisterUserDTO input)
     {
         // Comprueba si la entrada es nula
         if (input is null)
@@ -104,14 +106,25 @@ public class AuthController(
         if (input.Avatar is not null)
         {
             // Almacenamos la URL del avatar del usuario
-            newUser.AvatarUrl = await SaveAvatar(input.Avatar, $"{newUser.Nombre}-{newUser.Id}");
+            newUser.AvatarUrl = await SaveAvatar(input.Avatar);
         }
 
         // Guarda el nuevo usuario en la base de datos
         await _dbDatosPersonalesService.Create(newUser);
 
+        DatosPersonale response = new()
+        {
+            Id = newUser.Id,
+            Email = newUser.Email,
+            Nombre = newUser.Nombre,
+            Apellidos = newUser.Apellidos,
+            Telefono = newUser.Telefono,
+            AvatarUrl = newUser.AvatarUrl,
+            Credenciale = null
+        };
+
         // Devuelve un código de estado 201 (Created)
-        return CreatedAtAction(nameof(Register), newUser);
+        return CreatedAtAction(nameof(Register), response);
     }
 
     /// <summary>
@@ -143,7 +156,13 @@ public class AuthController(
         if (!validPassword)
             return BadRequest("La contraseña no es correcta");
 
-        ILoginResponse response = _tokenService.GenerarToken(userDB.Email, userDB.Id.ToString());
+        string token = _tokenService.GenerarToken(userDB.Email, userDB.Id.ToString());
+
+        LoginResponse response = new(Id: userDB.Id,
+            Nombre: userDB.Nombre,
+            AvatarUrl: userDB.AvatarUrl,
+            Email: userDB.Email,
+            Token: token);
 
         return Ok(response);
     }

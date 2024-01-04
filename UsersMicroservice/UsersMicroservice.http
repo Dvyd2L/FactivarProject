@@ -1,6 +1,6 @@
 @UsersMicroservice_HostAddress = https://localhost:7106
-@pk = b2762bc8-6416-49bc-a8a0-45262b6b1893
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ1c3VhcmlvQGV4YW1wbGUuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYjI3NjJiYzgtNjQxNi00OWJjLWE4YTAtNDUyNjJiNmIxODkzIiwiZXhwIjoxNzA2NTM5MDAwLCJpc3MiOiJGYWN0aXZhciIsImF1ZCI6IkZhY3RpdmFyIn0.shp_FtQ8MDAwIbormo1hft7Z1UsziwGUBz5TS7eDKQM
+@pk = ed7f7c2c-eed5-42d2-9e2c-13ced38677b3
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkYXZpZC5sbG9waXNsYWd1bmFAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiZWQ3ZjdjMmMtZWVkNS00MmQyLTllMmMtMTNjZWQzODY3N2IzIiwiZXhwIjoxNzA2OTY3MTcwLCJpc3MiOiJGYWN0aXZhciIsImF1ZCI6IkZhY3RpdmFyIn0.Llx8o61oXSp2pUCitboy0Zlr_7i7yFrAZSDubo-Om98
 
 ### usuariosMS/api/Users
 GET {{UsersMicroservice_HostAddress}}/api/Users HTTP/1.1
@@ -33,7 +33,8 @@ POST {{UsersMicroservice_HostAddress}}/login
 Content-Type: application/json
 
 {
-  "Email": "paco@gmail.com",
+  "Email": "david.llopislaguna@gmail.com",
+#  "Email": "paco@gmail.com",
   "Password": "$passwordSeguro&0"
 }
 ###

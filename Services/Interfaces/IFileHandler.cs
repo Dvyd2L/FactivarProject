@@ -1,4 +1,4 @@
-﻿namespace Interfaces;
+﻿namespace Services.Interfaces;
 
 /// <summary>
 /// Como preveemos que puedan haber diferentes versiones del GestorArchivos (local, nube, azure...) hemos creado

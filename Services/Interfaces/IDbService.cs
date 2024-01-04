@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Interfaces;
+namespace Services.Interfaces;
 public interface IDbService<TModel, TPrimaryKey>
     where TModel : class
 {
