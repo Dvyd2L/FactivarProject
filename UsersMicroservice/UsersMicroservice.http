@@ -24,7 +24,7 @@ Content-Type: application/json
   "Nombre": "Paco",
   "Apellidos": "Ratones Campo",
   "Telefono":"666112233",
-  "Email": "paco@gmail.com",
+  "Email": "paco2@gmail.com",
   "Password": "$passwordSeguro&0"
 }
 ###

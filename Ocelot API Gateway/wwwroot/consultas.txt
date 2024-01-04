@@ -22,3 +22,16 @@
 12/31/2023 21:07:48 - ::1 - /auth/login - OPTIONS
 12/31/2023 21:07:48 - ::1 - /auth/login - POST
 12/31/2023 21:07:48 - ::1 - /clientes - GET
+01/02/2024 18:15:04 - ::1 - /auth/register - OPTIONS
+01/02/2024 18:15:19 - ::1 - /auth/register - OPTIONS
+01/02/2024 18:15:19 - ::1 - /auth/register - POST
+01/02/2024 18:15:21 - ::1 - /auth/register - POST
+01/02/2024 18:15:36 - ::1 - /auth/register - OPTIONS
+01/02/2024 18:15:36 - ::1 - /auth/register - POST
+01/02/2024 18:16:02 - ::1 - /auth/register - OPTIONS
+01/02/2024 18:16:02 - ::1 - /auth/register - POST
+01/02/2024 18:18:57 - ::1 - /auth/register - POST
+01/02/2024 18:19:09 - ::1 - /auth/register - OPTIONS
+01/02/2024 18:19:09 - ::1 - /auth/register - POST
+01/02/2024 18:20:04 - ::1 - /auth/register - OPTIONS
+01/02/2024 18:20:04 - ::1 - /auth/register - POST
