@@ -3,7 +3,7 @@
 namespace DTOs.UsersMS;
 
 public record LoginResponse(
-    Guid Id,
+    string Id,
     string Nombre,
     string? AvatarUrl,
     string Email,

@@ -59,6 +59,18 @@
       "UpstreamHttpMethod": [ "Post" ]
     },
     {
+      "DownstreamPathTemplate": "/google-authenticate",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7106
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/google-authenticate",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
       "DownstreamPathTemplate": "/register",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

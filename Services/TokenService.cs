@@ -26,19 +26,17 @@ public class TokenService(IConfiguration configuration)
     public string GenerarToken(params string[] credenciales)
     {
         string email = credenciales[0];
-        string rol = credenciales[1] ??= "USER";
         DateTime expirationTime = DateTime.Now.AddDays(30); // tiempo de expiracion
 
         // Los claims construyen la información que va en el payload del token
         List<Claim> claims =
         [
-            new Claim(ClaimTypes.Email, email),
-            new Claim(ClaimTypes.Role, rol),
+            new Claim(nameof(ClaimTypes.Email), email),
         ];
 
-        foreach (string item in credenciales.Skip(2))
+        foreach (string item in credenciales.Skip(1))
         {
-            claims.Add(new Claim(nameof(item), item));
+            claims.Add(new Claim("Claims", item));
         }
 
         // Necesitamos la clave, audiencia y emisor de generación de tokens

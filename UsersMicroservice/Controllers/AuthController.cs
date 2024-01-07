@@ -1,11 +1,13 @@
 ﻿using DTOs.Interfaces;
 using DTOs.UsersMS;
+using Google.Apis.Auth;
 using Helpers.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Interfaces;
 using UsersMicroservice.Models;
+using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace UsersMicroservice.Controllers;
 
@@ -158,13 +160,47 @@ public class AuthController(
 
         string token = _tokenService.GenerarToken(userDB.Email, userDB.Id.ToString());
 
-        LoginResponse response = new(Id: userDB.Id,
+        LoginResponse response = new(Id: userDB.Id.ToString(),
             Nombre: userDB.Nombre,
             AvatarUrl: userDB.AvatarUrl,
             Email: userDB.Email,
             Token: token);
 
         return Ok(response);
+    }
+
+    [HttpPost("/google-authenticate")]
+    public async Task<ActionResult<ILoginResponse>> GoogleAuthenticate([FromBody] GoogleIdTokenDTO input)
+    {
+        try
+        {
+            Payload payload = await ValidateAsync(input.GoogleIdToken);
+
+            //var newUser = new DatosPersonale() 
+            //{ 
+            //    Email = payload.Email,
+            //    Nombre = payload.GivenName,
+            //    Apellidos = payload.FamilyName,
+            //    AvatarUrl = payload.Picture,
+            //};
+
+            // Aquí puedes crear y devolver tu propio token JWT para la autenticación en tu frontend.
+            string token = _tokenService.GenerarToken(payload.Email, payload.Subject, payload.Name);
+
+            LoginResponse response = new(
+                    Id: payload.Subject,
+                    Nombre: payload.GivenName,
+                    AvatarUrl: payload.Picture,
+                    Email: payload.Email,
+                    Token: token);
+
+            return Ok(response);
+        }
+        catch (InvalidJwtException ex)
+        {
+            // Manejar token no válido
+            return Unauthorized($"Token no valido: {ex.Message}");
+        }
     }
 
     /// <summary>

@@ -8,9 +8,17 @@ public class AsyncLogger(string logFile) : ThreadedLogger
     {
         lock (_logFile)
         {
-            using (StreamWriter writer = new(_logFile, append: true))
+            try
             {
-                writer.WriteLine(message);
+                using (StreamWriter writer = new(_logFile, append: true))
+                {
+                    _ = writer.WriteLineAsync(message);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Algo salió mal en {nameof(AsyncLogger)}: {ex.Message}");
+                //throw;
             }
         }
     }
