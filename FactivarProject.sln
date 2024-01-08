@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot API Gateway", "Ocelot API Gateway\Ocelot API Gateway.csproj", "{16DFF688-BA78-474F-99B7-C5FC805FD46E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "Ocelot API Gateway\ApiGateway.csproj", "{16DFF688-BA78-474F-99B7-C5FC805FD46E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsersMicroservice", "UsersMicroservice\UsersMicroservice.csproj", "{C182476D-BDA3-43B1-8252-BA62A3FAC624}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthMS", "UsersMicroservice\AuthMS.csproj", "{C182476D-BDA3-43B1-8252-BA62A3FAC624}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DD91BE44-7460-453F-99D5-23D9455BE573}"
 EndProject
