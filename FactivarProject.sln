@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "Ocelot API Gateway\ApiGateway.csproj", "{16DFF688-BA78-474F-99B7-C5FC805FD46E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthMS", "UsersMicroservice\AuthMS.csproj", "{C182476D-BDA3-43B1-8252-BA62A3FAC624}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DD91BE44-7460-453F-99D5-23D9455BE573}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{D5471888-A5A6-4FD8-9B1B-4A1E610ED3D1}"
@@ -25,20 +21,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactivarAPI", "FactivarAPI\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filters", "Filters\Filters.csproj", "{ED1C1195-BA32-4F79-956C-AC5EE0AB9A39}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{0B674D26-8C99-45A2-98BC-B6BBDD7F11C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthMS", "AuthMS\AuthMS.csproj", "{17D51A96-E94F-4DE7-A059-790E2221E116}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{16DFF688-BA78-474F-99B7-C5FC805FD46E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16DFF688-BA78-474F-99B7-C5FC805FD46E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16DFF688-BA78-474F-99B7-C5FC805FD46E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16DFF688-BA78-474F-99B7-C5FC805FD46E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C182476D-BDA3-43B1-8252-BA62A3FAC624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C182476D-BDA3-43B1-8252-BA62A3FAC624}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C182476D-BDA3-43B1-8252-BA62A3FAC624}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C182476D-BDA3-43B1-8252-BA62A3FAC624}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5471888-A5A6-4FD8-9B1B-4A1E610ED3D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5471888-A5A6-4FD8-9B1B-4A1E610ED3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5471888-A5A6-4FD8-9B1B-4A1E610ED3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,6 +63,14 @@ Global
 		{ED1C1195-BA32-4F79-956C-AC5EE0AB9A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED1C1195-BA32-4F79-956C-AC5EE0AB9A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED1C1195-BA32-4F79-956C-AC5EE0AB9A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B674D26-8C99-45A2-98BC-B6BBDD7F11C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B674D26-8C99-45A2-98BC-B6BBDD7F11C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B674D26-8C99-45A2-98BC-B6BBDD7F11C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B674D26-8C99-45A2-98BC-B6BBDD7F11C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D51A96-E94F-4DE7-A059-790E2221E116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D51A96-E94F-4DE7-A059-790E2221E116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D51A96-E94F-4DE7-A059-790E2221E116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D51A96-E94F-4DE7-A059-790E2221E116}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
