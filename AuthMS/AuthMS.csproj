@@ -10,6 +10,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Content Remove="Docs\client_secret_1010715603937-euj34hajhc3hbhqeq42hvvp6nuk6jnr6.apps.googleusercontent.com.json" />
+	  <Content Remove="Docs\client_secret_621242054251-df5enn397eb66be8lst0vmlqrf1i7ihs.apps.googleusercontent.com.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Google.Apis.Auth" Version="1.64.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />

@@ -9,7 +9,7 @@ using Services.Interfaces;
 using UsersMicroservice.Models;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
-namespace UsersMicroservice.Controllers;
+namespace AuthMS.Controllers;
 
 /// <summary>
 /// Controlador de autenticación que maneja las operaciones de registro y inicio de sesión.
@@ -106,10 +106,8 @@ public class AuthController(
         };
 
         if (input.Avatar is not null)
-        {
             // Almacenamos la URL del avatar del usuario
             newUser.AvatarUrl = await SaveAvatar(input.Avatar);
-        }
 
         // Guarda el nuevo usuario en la base de datos
         await _dbDatosPersonalesService.Create(newUser);
@@ -225,13 +223,11 @@ public class AuthController(
     [HttpPut("/changepassword")]
     public async Task<ActionResult> ChangePassword([FromBody] LoginUserDTO input)
     {
-        IEnumerable<DatosPersonale>? usersDB = await _dbDatosPersonalesService.Read(tracking: true, include: (e) => e.Credenciale);
+        IEnumerable<DatosPersonale>? usersDB = await _dbDatosPersonalesService.Read(tracking: true, include: (e) => e.Credenciale!);
         DatosPersonale? usuarioDB = usersDB?.FirstOrDefault((u) => u.Email == input.Email);
 
         if (usuarioDB == null)
-        {
             return Unauthorized("Usuario no registrado");
-        }
         else if (usuarioDB.Credenciale?.Password != _hashService.GetHash(input.Password, usuarioDB.Credenciale?.Salt).Hash)
         {
             return Unauthorized("Contraseña incorrecta");
