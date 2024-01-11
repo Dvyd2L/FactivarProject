@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DTOs.UsersMS;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -23,18 +24,31 @@ public class TokenService(IConfiguration configuration)
     /// <param name="credenciales">Las credenciales del usuario para el cual se generará el token. 
     /// Debe contener el correo electrónico en el primer índice y el rol en el segundo índice.</param>
     /// <returns>Una respuesta de inicio de sesión que contiene el correo electrónico del usuario y el token de autenticación.</returns>
-    public string GenerarToken(params string[] credenciales)
+    public string GenerarToken(UserDTO user, params string[] credenciales)
     {
-        string email = credenciales[0];
         DateTime expirationTime = DateTime.Now.AddDays(30); // tiempo de expiracion
 
         // Los claims construyen la información que va en el payload del token
         List<Claim> claims =
         [
-            new Claim(nameof(ClaimTypes.Email), email),
+            new Claim(nameof(ClaimTypes.Sid), user.Id.ToString()),
+            new Claim(nameof(ClaimTypes.Email), user.Email),
+            new Claim(nameof(ClaimTypes.Name), user.Nombre),
+            new Claim(nameof(ClaimTypes.Surname), user.Apellidos),
+            new Claim(nameof(ClaimTypes.Role), Enum.GetName(user.Rol) ?? user.Rol.ToString()),
         ];
 
-        foreach (string item in credenciales.Skip(1))
+        if (user.AvatarUrl is not null)
+        {
+            claims.Add(new Claim(nameof(ClaimTypes.Thumbprint), user.AvatarUrl));
+        }
+
+        if (user.Telefono is not null)
+        {
+            claims.Add(new Claim(nameof(ClaimTypes.MobilePhone), user.Telefono));
+        }
+
+        foreach (string item in credenciales)
         {
             claims.Add(new Claim("Claims", item));
         }

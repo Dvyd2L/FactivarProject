@@ -11,7 +11,7 @@ public class RegisterUserDTO
 
     public string? Telefono { get; set; }
 
-    [PesoArchivoValidacion(PesoMaximoEnMegaBytes: 5)]
+    [PesoArchivoValidacion(PesoMaximoEnMegaBytes: 10)]
     [TipoArchivoValidacion(grupoTipoArchivo: GrupoTipoArchivo.Imagen)]
     public IFormFile? Avatar { get; set; }
 

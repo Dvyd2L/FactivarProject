@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AuthMS.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
-using UsersMicroservice.Models;
 
-namespace UsersMicroservice.Controllers;
+namespace AuthMS.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

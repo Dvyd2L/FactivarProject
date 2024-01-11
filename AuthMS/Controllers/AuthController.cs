@@ -1,12 +1,12 @@
-﻿using DTOs.Interfaces;
+﻿using AuthMS.Models;
 using DTOs.UsersMS;
 using Google.Apis.Auth;
+using Helpers.Enums;
 using Helpers.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Interfaces;
-using UsersMicroservice.Models;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 
 namespace AuthMS.Controllers;
@@ -133,7 +133,7 @@ public class AuthController(
     /// <param name="input">Los datos del usuario para iniciar sesión.</param>
     /// <returns>Un ActionResult que contiene la respuesta de inicio de sesión.</returns>
     [HttpPost("/login")]
-    public async Task<ActionResult<ILoginResponse>> Login([FromBody] LoginUserDTO input)
+    public async Task<ActionResult<string>> Login([FromBody] LoginUserDTO input)
     {
         if (input is null)
             return BadRequest("Entrada no válida");
@@ -156,43 +156,43 @@ public class AuthController(
         if (!validPassword)
             return BadRequest("La contraseña no es correcta");
 
-        string token = _tokenService.GenerarToken(userDB.Email, userDB.Id.ToString());
+        UserDTO user = new()
+        {
+            Id = userDB.Id.ToString(),
+            Email = userDB.Email,
+            Nombre = userDB.Nombre,
+            Apellidos = userDB.Apellidos,
+            AvatarUrl = userDB.AvatarUrl,
+            Telefono = userDB.Telefono,
+            Rol = credencialesDB.Roles_IdRol == 1 ? EnumRoles.Admin : EnumRoles.User,
+        };
 
-        LoginResponse response = new(Id: userDB.Id.ToString(),
-            Nombre: userDB.Nombre,
-            AvatarUrl: userDB.AvatarUrl,
-            Email: userDB.Email,
-            Token: token);
+        string token = _tokenService.GenerarToken(user);
 
-        return Ok(response);
+        return Ok(token);
     }
 
     [HttpPost("/google-authenticate")]
-    public async Task<ActionResult<ILoginResponse>> GoogleAuthenticate([FromBody] GoogleIdTokenDTO input)
+    public async Task<ActionResult<string>> GoogleAuthenticate([FromBody] GoogleIdTokenDTO input)
     {
         try
         {
             Payload payload = await ValidateAsync(input.GoogleIdToken);
 
-            //var newUser = new DatosPersonale() 
-            //{ 
-            //    Email = payload.Email,
-            //    Nombre = payload.GivenName,
-            //    Apellidos = payload.FamilyName,
-            //    AvatarUrl = payload.Picture,
-            //};
+            UserDTO user = new()
+            {
+                Id = payload.Subject,
+                Email = payload.Email,
+                Nombre = payload.GivenName,
+                Apellidos = payload.FamilyName,
+                AvatarUrl = payload.Picture,
+                Rol = EnumRoles.User,
+            };
 
             // Aquí puedes crear y devolver tu propio token JWT para la autenticación en tu frontend.
-            string token = _tokenService.GenerarToken(payload.Email, payload.Subject, payload.Name);
+            string token = _tokenService.GenerarToken(user);
 
-            LoginResponse response = new(
-                    Id: payload.Subject,
-                    Nombre: payload.GivenName,
-                    AvatarUrl: payload.Picture,
-                    Email: payload.Email,
-                    Token: token);
-
-            return Ok(response);
+            return Ok(token);
         }
         catch (InvalidJwtException ex)
         {

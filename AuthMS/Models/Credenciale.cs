@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AuthMS.Models;
+﻿namespace AuthMS.Models;
 
 public partial class Credenciale
 {

@@ -15,6 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Utils\Helpers.csproj" />
 	  <ProjectReference Include="..\Validators\Validators.csproj" />
 	</ItemGroup>
 
