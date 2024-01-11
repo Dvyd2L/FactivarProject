@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UsersMicroservice.Models;
+namespace AuthMS.Models;
 
 public partial class DatosPersonale
 {

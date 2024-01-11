@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UsersMicroservice.Models;
+namespace AuthMS.Models;
 
 public partial class Credenciale
 {
@@ -11,9 +11,15 @@ public partial class Credenciale
 
     public byte[]? Salt { get; set; }
 
+    public int Roles_IdRol { get; set; }
+
+    public string? RefreshToken { get; set; }
+
     public string? EnlaceCambioPass { get; set; }
 
     public DateTime? FechaEnvioEnlace { get; set; }
 
     public virtual DatosPersonale IdUsuarioNavigation { get; set; } = null!;
+
+    public virtual Role Roles_IdRolNavigation { get; set; } = null!;
 }

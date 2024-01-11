@@ -227,7 +227,9 @@ public class AuthController(
         DatosPersonale? usuarioDB = usersDB?.FirstOrDefault((u) => u.Email == input.Email);
 
         if (usuarioDB == null)
+        {
             return Unauthorized("Usuario no registrado");
+        }
         else if (usuarioDB.Credenciale?.Password != _hashService.GetHash(input.Password, usuarioDB.Credenciale?.Salt).Hash)
         {
             return Unauthorized("Contraseña incorrecta");
