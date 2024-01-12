@@ -1,6 +1,4 @@
-﻿using Helpers.Enums;
-
-namespace DTOs.UsersMS;
+﻿namespace DTOs.UsersMS;
 
 public class UserDTO
 {
@@ -16,5 +14,5 @@ public class UserDTO
 
     public string Email { get; set; } = null!;
 
-    public EnumRoles Rol { get; set; }
+    public bool IsAdmin { get; set; }
 }

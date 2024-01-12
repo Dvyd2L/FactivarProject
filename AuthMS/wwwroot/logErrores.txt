@@ -59,3 +59,21 @@ Método:                      POST
 Ruta:      /google-authenticate
 Error: Value cannot be null. (Parameter 'signedToken')
 Fecha:       07/01/2024 14:06:26
+
+IP:                       ::1
+Método:                      POST
+Ruta:                 /register
+Error: An error occurred while saving the entity changes. See the inner exception for details.
+Fecha:        12/01/2024 1:50:42
+
+IP:                       ::1
+Método:                      POST
+Ruta:                 /register
+Error: An error occurred while saving the entity changes. See the inner exception for details.
+Fecha:        12/01/2024 1:55:15
+
+IP:                       ::1
+Método:                       GET
+Ruta: /api/Users/f4629418-7a7e-471b-886d-330a3e9b42b6
+Error: Cannot find primary key property for type AuthMS.Models.DatosPersonale
+Fecha:       12/01/2024 15:12:26

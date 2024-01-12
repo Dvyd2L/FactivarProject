@@ -102,6 +102,7 @@ public class AuthController(
                 // El IdUsuario se establecerá automáticamente al Id del newUser cuando guardes en la base de datos
                 Password = hashResult.Hash,
                 Salt = hashResult.Salt,
+                Roles_IdRol = (int)EnumRoles.User,
             },
         };
 
@@ -164,7 +165,7 @@ public class AuthController(
             Apellidos = userDB.Apellidos,
             AvatarUrl = userDB.AvatarUrl,
             Telefono = userDB.Telefono,
-            Rol = credencialesDB.Roles_IdRol == 1 ? EnumRoles.Admin : EnumRoles.User,
+            IsAdmin = credencialesDB.Roles_IdRol == 1,
         };
 
         string token = _tokenService.GenerarToken(user);
@@ -186,7 +187,7 @@ public class AuthController(
                 Nombre = payload.GivenName,
                 Apellidos = payload.FamilyName,
                 AvatarUrl = payload.Picture,
-                Rol = EnumRoles.User,
+                IsAdmin = false,
             };
 
             // Aquí puedes crear y devolver tu propio token JWT para la autenticación en tu frontend.

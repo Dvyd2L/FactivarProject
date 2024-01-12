@@ -35,7 +35,7 @@ public class TokenService(IConfiguration configuration)
             new Claim(nameof(ClaimTypes.Email), user.Email),
             new Claim(nameof(ClaimTypes.Name), user.Nombre),
             new Claim(nameof(ClaimTypes.Surname), user.Apellidos),
-            new Claim(nameof(ClaimTypes.Role), Enum.GetName(user.Rol) ?? user.Rol.ToString()),
+            new Claim(nameof(ClaimTypes.Role), user.IsAdmin ? "Admin" : "User"),
         ];
 
         if (user.AvatarUrl is not null)

@@ -1,3 +1,4 @@
+using AuthMS.Models;
 using Filters;
 using Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,7 +10,6 @@ using Services;
 using Services.Interfaces;
 using System.Text;
 using System.Text.Json.Serialization;
-using UsersMicroservice.Models;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

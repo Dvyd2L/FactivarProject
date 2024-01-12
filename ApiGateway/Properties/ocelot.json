@@ -16,6 +16,127 @@
     //  "UpstreamPathTemplate": "/servicio1/{everything}",
     //  "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     //},
+    //FactivarAPI - CLIENTES
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Clientes", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/clientes/all", // lleagda desde front
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Clientes/{pk}", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/clientes/{pk}", // lleagda desde front
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Clientes/{fechamin}/{fechamax}", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/clientes/alta-entre-fechas/{fechamin}/{fechamax}", // lleagda desde front
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Clientes", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/clientes", // lleagda desde front
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Clientes", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/clientes", // lleagda desde front
+      "UpstreamHttpMethod": [ "Put" ]
+    },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Clientes/{pk}", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/clientes/{pk}", // lleagda desde front
+      "UpstreamHttpMethod": [ "Delete" ]
+    },
+    //FactivarAPI - FACTURAS
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Facturas/{pk}", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/facturas/{pk}", // lleagda desde front
+      "UpstreamHttpMethod": [ "Get" ]
+    },
     //UsersMicroService
     {
       "AuthenticationOptions": {

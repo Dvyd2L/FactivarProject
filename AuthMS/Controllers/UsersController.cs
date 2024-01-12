@@ -1,4 +1,5 @@
 ﻿using AuthMS.Models;
+using DTOs.UsersMS;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
@@ -17,22 +18,51 @@ public class UsersController(
     #endregion PROPs
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<DatosPersonale>>> Get()
+    public async Task<ActionResult<IEnumerable<UserDTO>>> Get()
     {
         IEnumerable<DatosPersonale>? result = await _dbService.Read();
 
-        return result is null
-            ? NotFound()
-            : Ok(result);
+
+        if (result == null)
+        {
+            return NotFound(new { Message = "Usuario no encontrado" });
+        }
+
+        IEnumerable<UserDTO> response = result.Select(x => new UserDTO()
+        {
+            Id = x.Id.ToString(),
+            Apellidos = x.Apellidos,
+            AvatarUrl = x.AvatarUrl,
+            Email = x.Email,
+            Nombre = x.Nombre,
+            Telefono = x.Telefono,
+            IsAdmin = x.Credenciale?.Roles_IdRolNavigation.IdRol == 1,
+        });
+
+        return Ok(response);
     }
 
     [HttpGet("{pk:guid}")]
-    public async Task<ActionResult<DatosPersonale>> Get([FromRoute] Guid pk)
+    public async Task<ActionResult<UserDTO>> Get([FromRoute] Guid pk)
     {
-        DatosPersonale? result = await _dbService.Read(pk);
+        DatosPersonale? userDB = await _dbService.Read(pk, include: x => x.Credenciale.Roles_IdRolNavigation);
 
-        return result is null
-            ? NotFound()
-            : Ok(result);
+        if (userDB == null)
+        {
+            return NotFound(new { Message = "Usuario no encontrado" });
+        }
+
+        UserDTO result = new()
+        {
+            Id = userDB.Id.ToString(),
+            Apellidos = userDB.Apellidos,
+            AvatarUrl = userDB.AvatarUrl,
+            Email = userDB.Email,
+            Nombre = userDB.Nombre,
+            Telefono = userDB.Telefono,
+            IsAdmin = userDB.Credenciale?.Roles_IdRolNavigation.IdRol == 1,
+        };
+
+        return Ok(result);
     }
 }
