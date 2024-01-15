@@ -26,6 +26,8 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\DTOs\DTOs.csproj" />
+	  <ProjectReference Include="..\Filters\Filters.csproj" />
+	  <ProjectReference Include="..\Middlewares\Middlewares.csproj" />
 	  <ProjectReference Include="..\Services\Services.csproj" />
 	</ItemGroup>
 
