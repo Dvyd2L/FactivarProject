@@ -1,0 +1,29 @@
+﻿namespace DTOs.FactivarAPI;
+
+public class DTOFactura
+{
+    public int NumeroFactura { get; set; }
+    public decimal Importe { get; set; } //Precio sin iva
+    public decimal Iva { get; set; } //Suma de todos los ivas de productos
+    public decimal Total => Importe + Iva;  //Precio final = Importe + Iva
+    public bool PendientePago { get; set; }
+    public string DescripcionOperacion { get; set; } = null!;
+    public DateOnly FechaExpedicion { get; set; }
+    public DateOnly FechaCobro { get; set; }
+    public string ClienteId { get; set; } = null!;
+    public List<DTOArticulo> Articulos { get; set; } = null!;
+}
+
+
+/* 
+p1 10€ 1u 5% ivaPrecio = 10*1 *0.05 = a€
+¡2 1€ 10u 10% ivaPrecio = 1*10 *0.10  = b€
+p3 20€ 5u 21% ivaPrecio =  20*5 *0.21  = c€
+p4 3€ 8u 4% ivaPrecio = 3*8 *0.04  = d€
+
+importe =  10*1 + 1*10 + 20*5 + 3*8 = sub€
+IVA = a€ + b€ + c€ + d€ = iva€
+total = sub€ + iva€
+*/
+
+/* token para guardar los productos como string en la base de datos */

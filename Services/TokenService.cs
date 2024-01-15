@@ -1,6 +1,8 @@
-﻿using DTOs.UsersMS;
+﻿using DTOs.FactivarAPI;
+using DTOs.UsersMS;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -72,6 +74,38 @@ public class TokenService(IConfiguration configuration)
         );
 
         // Lo pasamos a string para devolverlo
+        string tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+        return tokenString;
+    }
+
+    public string GenerarTokenArticulos(List<DTOArticulo> articulos)
+    {
+        List<Claim> claims = [];
+        //List<Claim> claims =
+        //[
+        //    new Claim("ListaArticulos", JsonConvert.SerializeObject(articulos))
+        //];
+
+        foreach (DTOArticulo art in articulos)
+        {
+            claims.Add(new Claim(art.Descripcion, JsonConvert.SerializeObject(art)));
+        }
+
+        string clave = _configuration["ClaveJWT"] ?? "";
+        string issuer = _configuration["IssuerJWT"] ?? "";
+        string audience = _configuration["AudienceJWT"] ?? "";
+
+        SymmetricSecurityKey claveKey = new(Encoding.UTF8.GetBytes(clave));
+        SigningCredentials signinCredentials = new(claveKey, SecurityAlgorithms.HmacSha256);
+
+        JwtSecurityToken securityToken = new(
+            issuer: issuer,
+            audience: audience,
+            claims: claims,
+            signingCredentials: signinCredentials
+        );
+
         string tokenString = new JwtSecurityTokenHandler().WriteToken(securityToken);
 
         return tokenString;
