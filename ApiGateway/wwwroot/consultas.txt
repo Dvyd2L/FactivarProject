@@ -892,3 +892,5 @@
 01/16/2024 22:25:34 - ::1 - /api/clientes/all - GET
 01/16/2024 22:25:39 - ::1 - /api/clientes/all - OPTIONS
 01/16/2024 22:25:39 - ::1 - /api/clientes/all - GET
+01/16/2024 22:27:03 - ::1 - /api/clientes/55234902D - OPTIONS
+01/16/2024 22:27:03 - ::1 - /api/clientes/55234902D - DELETE

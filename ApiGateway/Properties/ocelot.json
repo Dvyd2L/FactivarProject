@@ -18,10 +18,10 @@
     //},
     //FactivarAPI - CLIENTES
     {
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "Bearer",
-      //  "AllowedScopes": []
-      //},
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
       "DownstreamPathTemplate": "/api/Clientes", // endpoint de factivar
       "DownstreamScheme": "https",
       // este es API de Factivar
