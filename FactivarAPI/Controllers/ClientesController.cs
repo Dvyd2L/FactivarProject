@@ -59,7 +59,8 @@ public class ClientesController(FactivarContext context) : ControllerBase
             Direccion = input.Direccion,
             Telefono = input.Telefono,
             Email = input.Email,
-            FechaAlta = input.FechaAlta
+            // Si no se pasa fecha de alta, se asigna la fecha actual.
+            FechaAlta = input?.FechaAlta ?? new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)
         };
 
         _ = await _context.Clientes.AddAsync(newCliente);
@@ -80,7 +81,7 @@ public class ClientesController(FactivarContext context) : ControllerBase
         clienteDB.Direccion = input.Direccion;
         clienteDB.Telefono = input.Telefono;
         clienteDB.Email = input.Email;
-        clienteDB.FechaAlta = input.FechaAlta;
+        clienteDB.FechaAlta = (DateOnly)input.FechaAlta;
 
         _ = _context.Update(clienteDB);
         _ = await _context.SaveChangesAsync();

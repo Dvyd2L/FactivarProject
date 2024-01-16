@@ -12,5 +12,5 @@ public class DTOCliente
 
     public string Email { get; set; } = null!;
 
-    public DateOnly FechaAlta { get; set; }
+    public DateOnly? FechaAlta { get; set; }
 }
