@@ -18,10 +18,10 @@
     //},
     //FactivarAPI - CLIENTES
     {
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
       "DownstreamPathTemplate": "/api/Clientes", // endpoint de factivar
       "DownstreamScheme": "https",
       // este es API de Factivar
@@ -135,6 +135,74 @@
         }
       ],
       "UpstreamPathTemplate": "/api/facturas/{pk}", // lleagda desde front
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Facturas/ivamensual/{pk_cliente}/{month}/{year}", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/facturas/iva/mensual/{pk_cliente}/{month}/{year}", // lleagda desde front
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Facturas/ivatrimestral/{pk_cliente}/{month}/{year}", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/facturas/iva/trimestral/{pk_cliente}/{trimestre}/{year}", // lleagda desde front
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Facturas/ivaanual/{pk_cliente}/{year}", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/facturas/iva/anual/{pk_cliente}/{year}", // lleagda desde front
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Facturas/pendientesDePagoPorCliente/{pk_cliente}", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/facturas/pendientes-pago/{pk_cliente}", // lleagda desde front
       "UpstreamHttpMethod": [ "Get" ]
     },
     //UsersMicroService

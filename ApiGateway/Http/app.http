@@ -1,1 +1,62 @@
 @Ocelot_API_Gateway_HostAddress = https://localhost:7230
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ1c3VhcmlvQGV4YW1wbGUuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYjI3NjJiYzgtNjQxNi00OWJjLWE4YTAtNDUyNjJiNmIxODkzIiwiZXhwIjoxNzA2NTQxMzg1LCJpc3MiOiJGYWN0aXZhciIsImF1ZCI6IkZhY3RpdmFyIn0.P7LOl6zIny3H2-xq_RSjnyxEZqequ06m2sRacaliUHY
+@pk = 55234902D
+@fechamin = 2023-01-01
+@fechamax = 2024-01-30
+
+GET {{Ocelot_API_Gateway_HostAddress}}/api/clientes/all
+Content-Type: text/plain
+Authorization: Bearer {{token}}
+
+""
+###
+
+GET {{Ocelot_API_Gateway_HostAddress}}/api/clientes/{{pk}}
+Content-Type: text/plain
+Authorization: Bearer {{token}}
+
+""
+###
+
+GET {{Ocelot_API_Gateway_HostAddress}}/api/clientes/alta-entre-fechas/{{fechamin}}/{{fechamax}}
+Content-Type: text/plain
+Authorization: Bearer {{token}}
+
+""
+###
+
+POST {{Ocelot_API_Gateway_HostAddress}}/api/clientes
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "cif": "55234902D",
+  "nombre": "Paco",
+  "direccion": "pacoferas",
+  "telefono": 655872010,
+  "email": "pacome@gmail.com",
+  "fechaAlta": "2024-01-15"
+}
+###
+
+PUT {{Ocelot_API_Gateway_HostAddress}}/api/clientes
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "cif": "55234902D",
+  "nombre": "Paco",
+  "direccion": "pacoferas",
+  "telefono": 655872010,
+  "email": "pacome@yahoo.com",
+  "fechaAlta": "2024-01-15"
+}
+
+###
+
+DELETE {{Ocelot_API_Gateway_HostAddress}}/api/clientes/{{pk}}
+Content-Type: text/plain
+Authorization: Bearer {{token}}
+
+""
+###

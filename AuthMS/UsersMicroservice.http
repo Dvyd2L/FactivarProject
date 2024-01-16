@@ -33,9 +33,9 @@ POST {{UsersMicroservice_HostAddress}}/login
 Content-Type: application/json
 
 {
-  "Email": "factivaradm@gmail.com",
-  "Password": "#HazteUnPaco69$"
-#  "Email": "david.llopislaguna@gmail.com",
-#  "Password": "$passwordSeguro&0"
+# "Email": "factivaradm@gmail.com",
+# "Password": "#HazteUnPaco69$"
+ "Email": "david.llopislaguna@gmail.com",
+ "Password": "$passwordSeguro&0"
 }
 ###

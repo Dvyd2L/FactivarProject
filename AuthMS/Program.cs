@@ -131,6 +131,7 @@ else if (app.Environment.IsProduction())
     _ = app.UseFileServer();
 }
 
+app.UseStaticFiles();
 app.UseMiddleware<LogRequestMiddleware>();
 app.UseHttpsRedirection();
 app.UseCors();

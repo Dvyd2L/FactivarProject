@@ -19,7 +19,7 @@ public class PreflightRequestMiddleware : IMiddleware
     /// <summary>
     /// Los encabezados permitidos en las solicitudes CORS.
     /// </summary>
-    private static readonly string[] _httpHeaders = ["Origin, X-Requested-With, Content-Type, Accept, Athorization, ActualUserOrImpersonatedUserSamAccount, IsImpersonatedUser"];
+    private static readonly string[] _httpHeaders = ["Origin, X-Requested-With, Content-Type, Accept, Authorization, ActualUserOrImpersonatedUserSamAccount, IsImpersonatedUser"];
 
     /// <summary>
     /// Indica si se permiten credenciales en las solicitudes CORS.

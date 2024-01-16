@@ -170,7 +170,7 @@ public class AuthController(
 
         string token = _tokenService.GenerarToken(user);
 
-        return Ok(token);
+        return Ok(new { token });
     }
 
     [HttpPost("/google-authenticate")]
@@ -193,7 +193,7 @@ public class AuthController(
             // Aquí puedes crear y devolver tu propio token JWT para la autenticación en tu frontend.
             string token = _tokenService.GenerarToken(user);
 
-            return Ok(token);
+            return Ok(new { token });
         }
         catch (InvalidJwtException ex)
         {

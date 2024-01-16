@@ -20,7 +20,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     #region ########### METODOS ###########
     #region GET
     [HttpGet("{cliente}")]
-    public async Task<IActionResult> GetFacturasDeCliente(string cliente)
+    public async Task<IActionResult> GetFacturasDeCliente([FromRoute] string cliente)
     {
         Cliente? clienteDB = await _context.Clientes.FirstOrDefaultAsync(c => c.Cif == cliente);
         if (clienteDB == null) return BadRequest("El cliente no existe");
@@ -47,7 +47,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     //     : Ok(result);
     //}
 
-    private IEnumerable<DTOIvas> ivasCalculados(List<Factura> input)
+    private IEnumerable<DTOIvas> IvasCalculados(List<Factura> input)
     {
         List<DTOArticulo> articulosFinal = [];
         List<DTOArticulo>? articulos;
@@ -67,18 +67,18 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
 
 
     [HttpGet("ivamensual/{cliente}/{mes}/{year}")]
-    public async Task<IActionResult> GetIvaMensual(string cliente, int mes, int year)
+    public async Task<IActionResult> GetIvaMensual([FromRoute] string cliente, [FromRoute] int mes, [FromRoute] int year)
     {
         List<Factura> facturasMes = await _context.Facturas.Where(f => f.ClienteId == cliente && f.FechaExpedicion.Month == mes && f.FechaExpedicion.Year == year).ToListAsync();
         if (facturasMes.Count == 0) return BadRequest("No se han encontrado facturas en el mes indicado");
 
-        IEnumerable<DTOIvas> ivaMensual = ivasCalculados(facturasMes);
+        IEnumerable<DTOIvas> ivaMensual = IvasCalculados(facturasMes);
 
         return Ok(ivaMensual);
     }
 
     [HttpGet("ivatrimestral/{cliente}/{trimestre}/{year}")]
-    public async Task<IActionResult> GetIvatrimestral(string cliente, int year, int trimestre)
+    public async Task<IActionResult> GetIvatrimestral([FromRoute] string cliente, [FromRoute] int year, [FromRoute] int trimestre)
     {
         int mesMin = 0, mesMax = 0;
         switch (trimestre)
@@ -107,7 +107,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
                                                              f.FechaExpedicion.Year == year).ToListAsync();
         if (facturasMes.Count == 0) return BadRequest("No se han encontrado facturas en el trimestre indicado");
 
-        IEnumerable<DTOIvas> ivaMensual = ivasCalculados(facturasMes);
+        IEnumerable<DTOIvas> ivaMensual = IvasCalculados(facturasMes);
 
         return Ok(ivaMensual);
     }
@@ -118,13 +118,13 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
         List<Factura> facturasMes = await _context.Facturas.Where(f => f.ClienteId == cliente && f.FechaExpedicion.Year == year).ToListAsync();
         if (facturasMes.Count == 0) return BadRequest("No se han encontrado facturas en el año indicado");
 
-        IEnumerable<DTOIvas> ivaMensual = ivasCalculados(facturasMes);
+        IEnumerable<DTOIvas> ivaMensual = IvasCalculados(facturasMes);
 
         return Ok(ivaMensual);
     }
 
     [HttpGet("pendientesDePagoPorCliente/{cliente}")]
-    public async Task<IActionResult> GetPendientesDePagoPorCliente(string cliente)
+    public async Task<IActionResult> GetPendientesDePagoPorCliente([FromRoute] string cliente)
     {
         List<Factura>? result = await _context.Facturas.Where(f => f.PendientePago && f.ClienteId == cliente).ToListAsync();
 
@@ -145,8 +145,8 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     #endregion
 
     #region POST
-    [HttpPost("prueba token")]
-    public string pruebatoken([FromBody] List<DTOArticulo> input)
+    [HttpPost("prueba-token")]
+    public string Pruebatoken([FromBody] List<DTOArticulo> input)
     {
         string result = _tokenService.GenerarTokenArticulos(input);
         return result;
@@ -228,7 +228,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     }
 
     [HttpPut("pagado/{nFactura}")]
-    public async Task<IActionResult> Put(int nFactura)
+    public async Task<IActionResult> Put([FromRoute] int nFactura)
     {
         Factura? facturaDB = await _context.Facturas.FirstOrDefaultAsync(f => f.NumeroFactura == nFactura);
         if (facturaDB == null) return BadRequest("La factura no existe");
@@ -247,7 +247,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
 
     #region DELETE
     [HttpDelete("{nFactura}")]
-    public async Task<IActionResult> DeleteClient(int nFactura)
+    public async Task<IActionResult> DeleteClient([FromRoute] int nFactura)
     {
         Factura? facturaDB = await _context.Facturas.FirstOrDefaultAsync(f => f.NumeroFactura == nFactura);
         if (facturaDB == null) return BadRequest("La factura no existe");
