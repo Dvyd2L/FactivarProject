@@ -1,1 +1,1 @@
-﻿Scaffold-DbContext "Data Source=localhost;Initial Catalog=Users;Integrated Security=True;TrustServerCertificate=True" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force -UseDatabaseNames -project AuthMS
+﻿Scaffold-DbContext "Data Source=localhost;Initial Catalog=Auth;Integrated Security=True;TrustServerCertificate=True" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force -UseDatabaseNames -project AuthMS

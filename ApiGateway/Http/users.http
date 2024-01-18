@@ -42,7 +42,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "Email": "usuario@example.com",
+  "Email": "factivaradm@gmail.com",
   "Password": "$passwordSeguro&0"
 }
 

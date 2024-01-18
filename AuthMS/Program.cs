@@ -37,7 +37,7 @@ services
         o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
-services.AddDbContext<UsersContext>(options =>
+services.AddDbContext<AuthContext>(options =>
 {
     _ = options.UseSqlServer(connectionString);
     _ = options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -46,8 +46,8 @@ services.AddDbContext<UsersContext>(options =>
 services.AddHttpContextAccessor();
 
 services.AddTransient<IFileHandler, LocalFileService>();
-services.AddTransient<IDbService<DatosPersonale, Guid>, DbService<UsersContext, DatosPersonale, Guid>>();
-services.AddTransient<IDbService<Credenciale, Guid>, DbService<UsersContext, Credenciale, Guid>>();
+services.AddTransient<IDbService<DatosPersonale, Guid>, DbService<AuthContext, DatosPersonale, Guid>>();
+services.AddTransient<IDbService<Credenciale, Guid>, DbService<AuthContext, Credenciale, Guid>>();
 services.AddTransient<IHashService, HashService>();
 services.AddTransient<TokenService>();
 services.AddTransient<LogRequestMiddleware>();

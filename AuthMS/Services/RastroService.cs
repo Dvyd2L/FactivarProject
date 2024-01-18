@@ -3,9 +3,9 @@ using Helpers.Enums;
 using Services.Interfaces;
 
 namespace AuthMS.Services;
-public class RastroService(UsersContext context, IHttpContextAccessor accessor, IHostEnvironment hostEnvironment) : IRastroService
+public class RastroService(AuthContext context, IHttpContextAccessor accessor, IHostEnvironment hostEnvironment) : IRastroService
 {
-    private readonly UsersContext _context = context;
+    private readonly AuthContext _context = context;
     private readonly IHttpContextAccessor _accessor = accessor;
     private readonly IHostEnvironment _hostEnvironment = hostEnvironment;
 

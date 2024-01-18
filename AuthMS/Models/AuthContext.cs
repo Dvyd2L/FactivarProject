@@ -2,13 +2,13 @@
 
 namespace AuthMS.Models;
 
-public partial class UsersContext : DbContext
+public partial class AuthContext : DbContext
 {
-    public UsersContext()
+    public AuthContext()
     {
     }
 
-    public UsersContext(DbContextOptions<UsersContext> options)
+    public AuthContext(DbContextOptions<AuthContext> options)
         : base(options)
     {
     }
