@@ -18,6 +18,24 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     #endregion
 
     #region ########### METODOS ###########
+    private IEnumerable<DTOIvas> IvasCalculados(List<Factura> input)
+    {
+        List<DTOArticulo> articulosFinal = [];
+        List<DTOArticulo>? articulos;
+
+        string articulosFactura;
+        foreach (Factura f in input)
+        {
+            articulosFactura = f.Articulos;
+            articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(articulosFactura);
+            articulosFinal.AddRange(articulos!);
+        }
+
+        IEnumerable<DTOs.FactivarAPI.DTOIvas> ivaMensual = _calculoIvaService.CalculoIVA(articulosFinal);
+
+        return ivaMensual;
+    }
+
     #region GET
     [HttpGet("{cliente}")]
     public async Task<IActionResult> GetFacturasDeCliente([FromRoute] string cliente)
@@ -46,25 +64,6 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     //     ? NotFound()
     //     : Ok(result);
     //}
-
-    private IEnumerable<DTOIvas> IvasCalculados(List<Factura> input)
-    {
-        List<DTOArticulo> articulosFinal = [];
-        List<DTOArticulo>? articulos;
-
-        string articulosFactura;
-        foreach (Factura f in input)
-        {
-            articulosFactura = f.Articulos;
-            articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(articulosFactura);
-            articulosFinal.AddRange(articulos!);
-        }
-
-        IEnumerable<DTOs.FactivarAPI.DTOIvas> ivaMensual = _calculoIvaService.CalculoIVA(articulosFinal);
-
-        return ivaMensual;
-    }
-
 
     [HttpGet("ivamensual/{cliente}/{mes}/{year}")]
     public async Task<IActionResult> GetIvaMensual([FromRoute] string cliente, [FromRoute] int mes, [FromRoute] int year)
@@ -155,7 +154,8 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     [HttpPost]
     public async Task<ActionResult> Post([FromBody] DTOFactura input)
     {
-        if (await _context.Facturas.AnyAsync(f => f.NumeroFactura == input.NumeroFactura)) return BadRequest("Numero de factura ya existente");
+        if (await _context.Facturas.AnyAsync(f => f.NumeroFactura == input.NumeroFactura))
+            return BadRequest("Numero de factura ya existente");
 
         Factura newFactura = new()
         {

@@ -96,7 +96,7 @@ public class ClientesController(FactivarContext context) : ControllerBase
     {
         Cliente? clienteDB = await _context.Clientes.FirstOrDefaultAsync(c => c.Cif == cif);
         if (clienteDB == null) return BadRequest("El cliente no existe");
-        if (clienteDB.Facturas.Count >= 0) return BadRequest("No se pueden eliminar clientes con facturas asociadas");
+        if (clienteDB.Facturas.Count > 0) return BadRequest("No se pueden eliminar clientes con facturas asociadas");
 
         _ = _context.Clientes.Remove(clienteDB);
         _ = await _context.SaveChangesAsync();
