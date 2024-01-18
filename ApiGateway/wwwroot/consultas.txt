@@ -1203,3 +1203,14 @@
 01/17/2024 18:19:24 - ::1 - /api/clientes/all - OPTIONS
 01/17/2024 18:19:24 - ::1 - /api/clientes/all - GET
 01/17/2024 18:19:25 - ::1 - /api/clientes/all - GET
+01/18/2024 10:17:53 - ::1 - /usuarios/all - GET
+01/18/2024 11:11:37 - ::1 - /auth/login - OPTIONS
+01/18/2024 11:11:37 - ::1 - /auth/login - POST
+01/18/2024 11:11:38 - ::1 - /api/clientes/all - OPTIONS
+01/18/2024 11:11:38 - ::1 - /api/clientes/all - OPTIONS
+01/18/2024 11:11:38 - ::1 - /api/clientes/all - GET
+01/18/2024 11:11:40 - ::1 - /api/clientes/all - GET
+01/18/2024 11:12:17 - ::1 - /api/clientes - OPTIONS
+01/18/2024 11:12:17 - ::1 - /api/clientes - POST
+01/18/2024 11:12:17 - ::1 - /api/clientes/all - OPTIONS
+01/18/2024 11:12:17 - ::1 - /api/clientes/all - GET
