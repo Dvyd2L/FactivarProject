@@ -15,7 +15,14 @@ CREATE TABLE [dbo].[DatosPersonales] (
     UNIQUE NONCLUSTERED ([Email] ASC)
 );
 
--- Paso 2: Crear la tabla de credenciales
+-- Paso 2: Crear la tabla de roles
+CREATE TABLE [dbo].[Roles] (
+    [IdRol]       INT           NOT NULL,
+    [Descripcion] NVARCHAR (50) NOT NULL,
+    PRIMARY KEY CLUSTERED ([IdRol] ASC)
+);
+
+-- Paso 3: Crear la tabla de credenciales
 CREATE TABLE [dbo].[Credenciales] (
     [IdUsuario]        UNIQUEIDENTIFIER NOT NULL,
     [Password]         NVARCHAR (500)   NOT NULL,
@@ -28,13 +35,6 @@ CREATE TABLE [dbo].[Credenciales] (
     PRIMARY KEY CLUSTERED ([IdUsuario] ASC),
     FOREIGN KEY ([IdUsuario]) REFERENCES [dbo].[DatosPersonales] ([Id]),
 	CONSTRAINT [FK_Usuarios_Roles] FOREIGN KEY ([Roles_IdRol]) REFERENCES [dbo].[Roles] ([IdRol])
-);
-
--- Paso 3: Crear la tabla de roles
-CREATE TABLE [dbo].[Roles] (
-    [IdRol]       INT           NOT NULL,
-    [Descripcion] NVARCHAR (50) NOT NULL,
-    PRIMARY KEY CLUSTERED ([IdRol] ASC)
 );
 
 INSERT INTO [dbo].[Roles] ([IdRol], [Descripcion]) VALUES (1, N'Admin')
