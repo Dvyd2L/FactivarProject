@@ -205,6 +205,23 @@
       "UpstreamPathTemplate": "/api/facturas/pendientes-pago/{pk_cliente}", // lleagda desde front
       "UpstreamHttpMethod": [ "Get" ]
     },
+    {
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DownstreamPathTemplate": "/api/Facturas", // endpoint de factivar
+      "DownstreamScheme": "https",
+      // este es API de Factivar
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7005
+        }
+      ],
+      "UpstreamPathTemplate": "/api/facturas", // lleagda desde front
+      "UpstreamHttpMethod": [ "Post" ]
+    },
     //UsersMicroService
     {
       "AuthenticationOptions": {

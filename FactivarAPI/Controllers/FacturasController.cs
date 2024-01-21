@@ -37,13 +37,23 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     }
 
     #region GET
-    [HttpGet("{cliente}")]
-    public async Task<IActionResult> GetFacturasDeCliente([FromRoute] string cliente)
+    [HttpGet("{pk:int}")]
+    public async Task<ActionResult<Factura?>> GetByPk([FromRoute] int pk)
     {
-        Cliente? clienteDB = await _context.Clientes.FirstOrDefaultAsync(c => c.Cif == cliente);
+        Factura? result = await _context.Facturas.FindAsync(pk);
+
+        return result is null
+         ? NotFound()
+         : Ok(result);
+    }
+
+    [HttpGet("cliente/{cif}")]
+    public async Task<IActionResult> GetFacturasDeCliente([FromRoute] string cif)
+    {
+        Cliente? clienteDB = await _context.Clientes.FirstOrDefaultAsync(c => c.Cif == cif);
         if (clienteDB == null) return BadRequest("El cliente no existe");
 
-        List<Factura>? result = await _context.Facturas.Where(f => f.ClienteId == cliente).ToListAsync();
+        List<Factura>? result = await _context.Facturas.Where(f => f.ClienteId == cif).ToListAsync();
 
         return result is null
          ? NotFound()
