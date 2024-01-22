@@ -3,6 +3,7 @@ using FactivarAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+
 using Services;
 
 namespace FactivarAPI.Controllers;
@@ -38,13 +39,37 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
 
     #region GET
     [HttpGet("{pk:int}")]
-    public async Task<ActionResult<Factura?>> GetByPk([FromRoute] int pk)
+    public async Task<ActionResult<DTOFacturaResponse?>> GetByPk([FromRoute] int pk)
     {
-        Factura? result = await _context.Facturas.FindAsync(pk);
+        Factura? result = await _context.Facturas
+            .Include((f) => f.Cliente)
+            .FirstOrDefaultAsync((f) => f.NumeroFactura == pk);
 
-        return result is null
-         ? NotFound()
-         : Ok(result);
+        if (result is null)
+        {
+            return NotFound(new { msg = "No se ha encontrado la factura" });
+        }
+
+        DTOFacturaResponse response = new()
+        {
+            NumeroFactura = result.NumeroFactura,
+            Cliente = new DTOCliente()
+            {
+                Cif = result.Cliente.Cif,
+                Nombre = result.Cliente.Nombre,
+                Direccion = result.Cliente.Direccion,
+                Email = result.Cliente.Email,
+                FechaAlta = result.Cliente.FechaAlta,
+                Telefono = result.Cliente.Telefono,
+            },
+            Articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(result.Articulos) ?? [],
+            DescripcionOperacion = result.DescripcionOperacion,
+            FechaExpedicion = result.FechaExpedicion,
+            FechaCobro = result.FechaCobro,
+            PendientePago = result.PendientePago,
+        };
+
+        return Ok(response);
     }
 
     [HttpGet("cliente/{cif}")]

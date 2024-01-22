@@ -14,7 +14,19 @@ public class DTOFactura
     public List<DTOArticulo> Articulos { get; set; } = null!;
 }
 
-
+public class DTOFacturaResponse
+{
+    public int NumeroFactura { get; set; }
+    public decimal Importe => Articulos.Sum(x => x.BImponible);  //Suma de todos los precios de productos
+    public decimal Iva => Articulos.Sum(x => x.Iva);  //Suma de todos los ivas de productos
+    public decimal Total => Importe + Iva;  //Precio final = Importe + Iva
+    public bool PendientePago { get; set; }
+    public string DescripcionOperacion { get; set; } = null!;
+    public DateOnly FechaExpedicion { get; set; }
+    public DateOnly? FechaCobro { get; set; }
+    public DTOCliente Cliente { get; set; } = null!;
+    public List<DTOArticulo> Articulos { get; set; } = null!;
+}
 /* 
 p1 10€ 1u 5% ivaPrecio = 10*1 *0.05 = a€
 ¡2 1€ 10u 10% ivaPrecio = 1*10 *0.10  = b€
