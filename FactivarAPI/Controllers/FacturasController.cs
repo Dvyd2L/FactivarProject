@@ -50,6 +50,8 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
             return NotFound(new { msg = "No se ha encontrado la factura" });
         }
 
+        List<DTOArticulo> articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(result.Articulos) ?? [];
+
         DTOFacturaResponse response = new()
         {
             NumeroFactura = result.NumeroFactura,
@@ -62,7 +64,8 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
                 FechaAlta = result.Cliente.FechaAlta,
                 Telefono = result.Cliente.Telefono,
             },
-            Articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(result.Articulos) ?? [],
+            Articulos = articulos,
+            CalculosIvas = _calculoIvaService.CalculoIVA(articulos),
             DescripcionOperacion = result.DescripcionOperacion,
             FechaExpedicion = result.FechaExpedicion,
             FechaCobro = result.FechaCobro,

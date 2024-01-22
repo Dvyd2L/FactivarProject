@@ -18,8 +18,9 @@ public class DTOFacturaResponse
 {
     public int NumeroFactura { get; set; }
     public decimal Importe => Articulos.Sum(x => x.BImponible);  //Suma de todos los precios de productos
-    public decimal Iva => Articulos.Sum(x => x.Iva);  //Suma de todos los ivas de productos
+    public decimal Iva => Articulos.Sum(x => x.BImponible * x.Iva / 100);  //Suma de todos los ivas de productos
     public decimal Total => Importe + Iva;  //Precio final = Importe + Iva
+    public IEnumerable<DTOIvas>? CalculosIvas { get; set; }
     public bool PendientePago { get; set; }
     public string DescripcionOperacion { get; set; } = null!;
     public DateOnly FechaExpedicion { get; set; }
