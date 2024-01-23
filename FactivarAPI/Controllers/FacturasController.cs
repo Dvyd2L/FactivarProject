@@ -66,6 +66,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
             },
             Articulos = articulos,
             CalculosIvas = _calculoIvaService.CalculoIVA(articulos),
+            DesgloseIva = _calculoIvaService.DesgloseIVA(articulos),
             DescripcionOperacion = result.DescripcionOperacion,
             FechaExpedicion = result.FechaExpedicion,
             FechaCobro = result.FechaCobro,
