@@ -9,17 +9,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["UsersMicroservice/UsersMicroservice.csproj", "UsersMicroservice/"]
-RUN dotnet restore "./UsersMicroservice/./UsersMicroservice.csproj"
+COPY ["AuthMS/AuthMS.csproj", "AuthMS/"]
+RUN dotnet restore "./AuthMS/./AuthMS.csproj"
 COPY . .
-WORKDIR "/src/UsersMicroservice"
-RUN dotnet build "./UsersMicroservice.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/AuthMS"
+RUN dotnet build "./AuthMS.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./UsersMicroservice.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./AuthMS.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "UsersMicroservice.dll"]
+ENTRYPOINT ["dotnet", "AuthMS.dll"]

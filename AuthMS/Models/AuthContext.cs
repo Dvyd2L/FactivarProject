@@ -17,8 +17,6 @@ public partial class AuthContext : DbContext
 
     public virtual DbSet<DatosPersonale> DatosPersonales { get; set; }
 
-    public virtual DbSet<Registro> Registros { get; set; }
-
     public virtual DbSet<Role> Roles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -61,18 +59,6 @@ public partial class AuthContext : DbContext
                 .HasMaxLength(15)
                 .IsUnicode(false)
                 .IsFixedLength();
-        });
-
-        _ = modelBuilder.Entity<Registro>(entity =>
-        {
-            _ = entity.HasKey(e => e.IdRegistro).HasName("PK__Registro__FFA45A9994A82543");
-
-            _ = entity.Property(e => e.IdRegistro).ValueGeneratedNever();
-            _ = entity.Property(e => e.FechaAccion).HasColumnType("datetime");
-            _ = entity.Property(e => e.Ip).HasMaxLength(50);
-            _ = entity.Property(e => e.Observaciones).HasMaxLength(150);
-            _ = entity.Property(e => e.Operacion).HasMaxLength(50);
-            _ = entity.Property(e => e.Proceso).HasMaxLength(50);
         });
 
         _ = modelBuilder.Entity<Role>(entity =>
