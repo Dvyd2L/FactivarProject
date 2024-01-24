@@ -5,5 +5,6 @@ CREATE TABLE [dbo].[Clientes] (
     [Telefono]  INT           NOT NULL,
     [Email]     NVARCHAR (50) NOT NULL,
     [FechaAlta] DATE          NOT NULL,
+    [Eliminado] BIT           NOT NULL,
     PRIMARY KEY CLUSTERED ([Cif] ASC)
 );

@@ -94,11 +94,15 @@ public class ClientesController(FactivarContext context) : ControllerBase
     [HttpDelete("{cif}")]
     public async Task<IActionResult> DeleteClient(string cif)
     {
-        Cliente? clienteDB = await _context.Clientes.FirstOrDefaultAsync(c => c.Cif == cif);
-        if (clienteDB == null) return BadRequest("El cliente no existe");
-        if (clienteDB.Facturas.Count > 0) return BadRequest("No se pueden eliminar clientes con facturas asociadas");
+        Cliente? clienteDB = await _context.Clientes.Include((c) => c.FacturaClientes).FirstOrDefaultAsync(c => c.Cif == cif);
+        if (clienteDB == null) return BadRequest(new { msg = "El cliente no existe" });
 
-        _ = _context.Clientes.Remove(clienteDB);
+        // if (clienteDB.Facturas.Count > 0) return BadRequest(new { msg = "No se pueden eliminar clientes con facturas asociadas" });
+        // clienteDB.FacturaClientes.Clear(); // Elimina las facturas asociadas al cliente.
+        //_ = _context.Clientes.Remove(clienteDB);
+
+        clienteDB.Eliminado = true; // Cambia el estado del cliente a eliminado.
+        _ = _context.Clientes.Update(clienteDB);
         _ = await _context.SaveChangesAsync();
 
         return NoContent();

@@ -5,13 +5,9 @@ namespace FactivarAPI.Models;
 
 public partial class Factura
 {
+    public int FacturaId { get; set; }
+
     public int NumeroFactura { get; set; }
-
-    public decimal Importe { get; set; }
-
-    public decimal Iva { get; set; }
-
-    public decimal Total { get; set; }
 
     public bool PendientePago { get; set; }
 
@@ -23,7 +19,11 @@ public partial class Factura
 
     public string ClienteId { get; set; } = null!;
 
+    public string ProveedorId { get; set; } = null!;
+
     public string Articulos { get; set; } = null!;
 
     public virtual Cliente Cliente { get; set; } = null!;
+
+    public virtual Cliente Proveedor { get; set; } = null!;
 }

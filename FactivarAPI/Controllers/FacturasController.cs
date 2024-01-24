@@ -199,8 +199,8 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
         Factura newFactura = new()
         {
             NumeroFactura = input.NumeroFactura,
-            Importe = input.Importe,
-            Iva = input.Iva,
+            //Importe = input.Importe,
+            //Iva = input.Iva,
             //Total = input.Total,
             PendientePago = input.PendientePago,
             DescripcionOperacion = input.DescripcionOperacion,
@@ -253,9 +253,9 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
         Factura? facturaDB = await _context.Facturas.FirstOrDefaultAsync(f => f.NumeroFactura.Equals(input.NumeroFactura));
         if (facturaDB == null) return BadRequest("La factura no existe");
 
-        facturaDB.Importe = input.Importe;
-        facturaDB.Iva = input.Iva;
-        facturaDB.Total = input.Total;
+        //facturaDB.Importe = input.Importe;
+        //facturaDB.Iva = input.Iva;
+        //facturaDB.Total = input.Total;
         facturaDB.PendientePago = input.PendientePago;
         facturaDB.DescripcionOperacion = input.DescripcionOperacion;
         facturaDB.FechaCobro = input.FechaCobro;

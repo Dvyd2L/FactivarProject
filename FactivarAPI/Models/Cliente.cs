@@ -17,5 +17,9 @@ public partial class Cliente
 
     public DateOnly FechaAlta { get; set; }
 
-    public virtual ICollection<Factura> Facturas { get; set; } = new List<Factura>();
+    public bool Eliminado { get; set; }
+
+    public virtual ICollection<Factura> FacturaClientes { get; set; } = new List<Factura>();
+
+    public virtual ICollection<Factura> FacturaProveedors { get; set; } = new List<Factura>();
 }

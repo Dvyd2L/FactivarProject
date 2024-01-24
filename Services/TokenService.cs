@@ -110,4 +110,16 @@ public class TokenService(IConfiguration configuration)
 
         return tokenString;
     }
+
+    public List<DTOArticulo> LeerTokenArticulos(string token)
+    {
+        IEnumerable<Claim> variables = new JwtSecurityTokenHandler().ReadJwtToken(token).Claims;
+        List<DTOArticulo> articulos = [];
+        foreach (Claim? a in variables.SkipLast(2))
+        {
+            articulos.Add(JsonConvert.DeserializeObject<DTOArticulo>(a.Value) ?? new DTOArticulo());
+        }
+
+        return articulos;
+    }
 }
