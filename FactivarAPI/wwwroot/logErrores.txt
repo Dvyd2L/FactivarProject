@@ -1,0 +1,6 @@
+
+IP:                       ::1
+Método:                      POST
+Ruta:             /api/Facturas
+Error: An error occurred while saving the entity changes. See the inner exception for details.
+Fecha:       24/01/2024 18:27:58

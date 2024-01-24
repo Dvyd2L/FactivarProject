@@ -1,6 +1,7 @@
 @Ocelot_API_Gateway_HostAddress = https://localhost:7230
 @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ1c3VhcmlvQGV4YW1wbGUuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYjI3NjJiYzgtNjQxNi00OWJjLWE4YTAtNDUyNjJiNmIxODkzIiwiZXhwIjoxNzA2NTQxMzg1LCJpc3MiOiJGYWN0aXZhciIsImF1ZCI6IkZhY3RpdmFyIn0.P7LOl6zIny3H2-xq_RSjnyxEZqequ06m2sRacaliUHY
 @pk_fatura = 6
+@pk_cliente = 6
 @month = 1
 @trimestre = 1
 @year = 2024
@@ -40,19 +41,18 @@ Authorization: Bearer {{token}}
 ""
 ###
 
-Post {{Ocelot_API_Gateway_HostAddress}}/api/facturas
+POST {{Ocelot_API_Gateway_HostAddress}}/api/facturas
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "numeroFactura": 6,
-  "importe": 200,
-  "iva": 20,
+  "numeroFactura": 1,
   "pendientePago": false,
   "descripcionOperacion": "pruebapalllopis",
   "fechaExpedicion": "2024-01-15",
   "fechaCobro": "2024-01-15",
   "clienteId": "55234902D",
+  "proveedorId": "73657861Q",
   "articulos": [
   	{
     	  "descripcion": "p1",

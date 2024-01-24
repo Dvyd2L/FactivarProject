@@ -42,7 +42,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     public async Task<ActionResult<DTOFacturaResponse?>> GetByPk([FromRoute] int pk)
     {
         Factura? result = await _context.Facturas
-            .Include((f) => f.Cliente)
+            .Include((f) => f.Cliente).Include((f) => f.Proveedor)
             .FirstOrDefaultAsync((f) => f.NumeroFactura == pk);
 
         if (result is null)
@@ -63,6 +63,15 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
                 Email = result.Cliente.Email,
                 FechaAlta = result.Cliente.FechaAlta,
                 Telefono = result.Cliente.Telefono,
+            },
+            Proveedor = new DTOCliente()
+            {
+                Cif = result.Proveedor.Cif,
+                Nombre = result.Proveedor.Nombre,
+                Direccion = result.Proveedor.Direccion,
+                Email = result.Proveedor.Email,
+                FechaAlta = result.Proveedor.FechaAlta,
+                Telefono = result.Proveedor.Telefono,
             },
             Articulos = articulos,
             CalculosIvas = _calculoIvaService.CalculoIVA(articulos),
@@ -199,14 +208,12 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
         Factura newFactura = new()
         {
             NumeroFactura = input.NumeroFactura,
-            //Importe = input.Importe,
-            //Iva = input.Iva,
-            //Total = input.Total,
             PendientePago = input.PendientePago,
             DescripcionOperacion = input.DescripcionOperacion,
             FechaExpedicion = input.FechaExpedicion,
             FechaCobro = input.FechaCobro,
             ClienteId = input.ClienteId,
+            ProveedorId = input.ProveedorId,
             Articulos = JsonConvert.SerializeObject(input.Articulos)
         };
 
@@ -253,9 +260,6 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
         Factura? facturaDB = await _context.Facturas.FirstOrDefaultAsync(f => f.NumeroFactura.Equals(input.NumeroFactura));
         if (facturaDB == null) return BadRequest("La factura no existe");
 
-        //facturaDB.Importe = input.Importe;
-        //facturaDB.Iva = input.Iva;
-        //facturaDB.Total = input.Total;
         facturaDB.PendientePago = input.PendientePago;
         facturaDB.DescripcionOperacion = input.DescripcionOperacion;
         facturaDB.FechaCobro = input.FechaCobro;

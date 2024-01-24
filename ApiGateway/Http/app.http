@@ -32,9 +32,9 @@ Authorization: Bearer {{token}}
 {
   "cif": "55234902D",
   "nombre": "Paco",
-  "direccion": "pacoferas",
+  "direccion": "Carchelejo",
   "telefono": 655872010,
-  "email": "pacome@gmail.com",
+  "email": "paco@gmail.com",
   "fechaAlta": "2024-01-15"
 }
 ###
@@ -46,9 +46,9 @@ Authorization: Bearer {{token}}
 {
   "cif": "55234902D",
   "nombre": "Paco",
-  "direccion": "pacoferas",
+  "direccion": "Carchelejo",
   "telefono": 655872010,
-  "email": "pacome@yahoo.com",
+  "email": "paco@yahoo.com",
   "fechaAlta": "2024-01-15"
 }
 
