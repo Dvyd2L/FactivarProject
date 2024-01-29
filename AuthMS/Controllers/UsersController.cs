@@ -20,7 +20,7 @@ public class UsersController(
     [HttpGet]
     public async Task<ActionResult<IEnumerable<UserDTO>>> Get()
     {
-        IEnumerable<DatosPersonale>? result = await _dbService.Read();
+        IEnumerable<DatosPersonale>? result = await _dbService.Read(include: x => x.Credenciale.Roles_IdRolNavigation);
 
 
         if (result == null)

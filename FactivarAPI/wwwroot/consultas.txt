@@ -434,3 +434,15 @@
 29/01/2024 18:31:28 - ::1 - /api/Clientes - GET
 29/01/2024 18:31:48 - ::1 - /api/Clientes - GET
 29/01/2024 18:34:08 - ::1 - /api/Clientes - GET
+29/01/2024 18:42:16 - ::1 - /api/Clientes - GET
+29/01/2024 18:45:39 - ::1 - /api/Clientes - GET
+29/01/2024 18:46:16 - ::1 - /api/Clientes - GET
+29/01/2024 18:46:32 - ::1 - /api/Clientes - GET
+29/01/2024 18:47:27 - ::1 - /api/Clientes - GET
+29/01/2024 18:48:40 - ::1 - /api/Clientes - POST
+29/01/2024 18:48:40 - ::1 - /api/Clientes - GET
+29/01/2024 18:49:15 - ::1 - /api/Clientes/14785236F - DELETE
+29/01/2024 18:49:15 - ::1 - /api/Clientes - GET
+29/01/2024 18:50:18 - ::1 - /api/Clientes - GET
+29/01/2024 18:50:43 - ::1 - /api/Clientes/55234902D - GET
+29/01/2024 18:50:47 - ::1 - /api/Clientes - GET
