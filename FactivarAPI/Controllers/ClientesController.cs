@@ -60,6 +60,7 @@ public class ClientesController(FactivarContext context) : ControllerBase
             Telefono = input.Telefono,
             Email = input.Email,
             // Si no se pasa fecha de alta, se asigna la fecha actual.
+            Eliminado = false,
             FechaAlta = input?.FechaAlta ?? new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)
         };
 
