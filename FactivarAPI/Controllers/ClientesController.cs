@@ -18,7 +18,7 @@ public class ClientesController(FactivarContext context) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Cliente>>> Get()
     {
-        List<Cliente>? result = await _context.Clientes.ToListAsync();
+        List<Cliente>? result = await _context.Clientes.Where((c) => !c.Eliminado).ToListAsync();
 
         return result is null
          ? NotFound()
@@ -28,7 +28,7 @@ public class ClientesController(FactivarContext context) : ControllerBase
     [HttpGet("{cif}")]
     public async Task<ActionResult<Cliente>> GetClientePorCif(string cif)
     {
-        Cliente? result = await _context.Clientes.FirstOrDefaultAsync(c => c.Cif == cif);
+        Cliente? result = await _context.Clientes.FirstOrDefaultAsync(c => c.Cif == cif && !c.Eliminado);
 
         return result is null
          ? NotFound()

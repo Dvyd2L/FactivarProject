@@ -69,7 +69,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
             articulosFinal.AddRange(articulos!);
         }
 
-        IEnumerable<DTOs.FactivarAPI.DTOIvas> ivaMensual = _calculoIvaService.CalculoIVA(articulosFinal);
+        IEnumerable<DTOIvas> ivaMensual = _calculoIvaService.CalculoIVA(articulosFinal);
 
         return ivaMensual;
     }
@@ -140,7 +140,9 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     public async Task<IActionResult> GetIvaMensual([FromRoute] string cliente, [FromRoute] int mes, [FromRoute] int year)
     {
         List<Factura> facturasMes = await _context.Facturas.Where(f => f.ClienteId == cliente && f.FechaExpedicion.Month == mes && f.FechaExpedicion.Year == year).ToListAsync();
-        if (facturasMes.Count == 0) return BadRequest("No se han encontrado facturas en el mes indicado");
+
+        if (facturasMes.Count == 0)
+            return BadRequest(new { msg = "No se han encontrado facturas en el mes indicado" });
 
         IEnumerable<DTOIvas> ivaMensual = IvasCalculados(facturasMes);
 
