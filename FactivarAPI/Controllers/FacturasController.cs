@@ -88,37 +88,6 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
         }
 
         DTOFacturaResponse response = await DecryptArticle(result);
-        //List<DTOArticulo> articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(result.Articulos) ?? [];
-
-        //DTOFacturaResponse response = new()
-        //{
-        //    NumeroFactura = result.NumeroFactura,
-        //    Cliente = new DTOCliente()
-        //    {
-        //        Cif = result.Cliente.Cif,
-        //        Nombre = result.Cliente.Nombre,
-        //        Direccion = result.Cliente.Direccion,
-        //        Email = result.Cliente.Email,
-        //        FechaAlta = result.Cliente.FechaAlta,
-        //        Telefono = result.Cliente.Telefono,
-        //    },
-        //    Proveedor = new DTOCliente()
-        //    {
-        //        Cif = result.Proveedor.Cif,
-        //        Nombre = result.Proveedor.Nombre,
-        //        Direccion = result.Proveedor.Direccion,
-        //        Email = result.Proveedor.Email,
-        //        FechaAlta = result.Proveedor.FechaAlta,
-        //        Telefono = result.Proveedor.Telefono,
-        //    },
-        //    Articulos = articulos,
-        //    CalculosIvas = _calculoIvaService.CalculoIVA(articulos),
-        //    DesgloseIva = _calculoIvaService.DesgloseIVA(articulos),
-        //    DescripcionOperacion = result.DescripcionOperacion,
-        //    FechaExpedicion = result.FechaExpedicion,
-        //    FechaCobro = result.FechaCobro,
-        //    PendientePago = result.PendientePago,
-        //};
 
         return Ok(response);
     }
