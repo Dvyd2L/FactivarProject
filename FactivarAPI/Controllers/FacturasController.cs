@@ -19,6 +19,43 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     #endregion
 
     #region ########### METODOS ###########
+    private Task<DTOFacturaResponse> DecryptArticle(Factura factura)
+    {
+        List<DTOArticulo> articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(factura.Articulos) ?? [];
+
+        DTOFacturaResponse response = new()
+        {
+            NumeroFactura = factura.NumeroFactura,
+            Cliente = new DTOCliente()
+            {
+                Cif = factura.Cliente.Cif,
+                Nombre = factura.Cliente.Nombre,
+                Direccion = factura.Cliente.Direccion,
+                Email = factura.Cliente.Email,
+                FechaAlta = factura.Cliente.FechaAlta,
+                Telefono = factura.Cliente.Telefono,
+            },
+            Proveedor = new DTOCliente()
+            {
+                Cif = factura.Proveedor.Cif,
+                Nombre = factura.Proveedor.Nombre,
+                Direccion = factura.Proveedor.Direccion,
+                Email = factura.Proveedor.Email,
+                FechaAlta = factura.Proveedor.FechaAlta,
+                Telefono = factura.Proveedor.Telefono,
+            },
+            Articulos = articulos,
+            CalculosIvas = _calculoIvaService.CalculoIVA(articulos),
+            DesgloseIva = _calculoIvaService.DesgloseIVA(articulos),
+            DescripcionOperacion = factura.DescripcionOperacion,
+            FechaExpedicion = factura.FechaExpedicion,
+            FechaCobro = factura.FechaCobro,
+            PendientePago = factura.PendientePago,
+        };
+
+        return Task.FromResult(response);
+    }
+
     private IEnumerable<DTOIvas> IvasCalculados(List<Factura> input)
     {
         List<DTOArticulo> articulosFinal = [];
@@ -50,37 +87,38 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
             return NotFound(new { msg = "No se ha encontrado la factura" });
         }
 
-        List<DTOArticulo> articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(result.Articulos) ?? [];
+        DTOFacturaResponse response = await DecryptArticle(result);
+        //List<DTOArticulo> articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(result.Articulos) ?? [];
 
-        DTOFacturaResponse response = new()
-        {
-            NumeroFactura = result.NumeroFactura,
-            Cliente = new DTOCliente()
-            {
-                Cif = result.Cliente.Cif,
-                Nombre = result.Cliente.Nombre,
-                Direccion = result.Cliente.Direccion,
-                Email = result.Cliente.Email,
-                FechaAlta = result.Cliente.FechaAlta,
-                Telefono = result.Cliente.Telefono,
-            },
-            Proveedor = new DTOCliente()
-            {
-                Cif = result.Proveedor.Cif,
-                Nombre = result.Proveedor.Nombre,
-                Direccion = result.Proveedor.Direccion,
-                Email = result.Proveedor.Email,
-                FechaAlta = result.Proveedor.FechaAlta,
-                Telefono = result.Proveedor.Telefono,
-            },
-            Articulos = articulos,
-            CalculosIvas = _calculoIvaService.CalculoIVA(articulos),
-            DesgloseIva = _calculoIvaService.DesgloseIVA(articulos),
-            DescripcionOperacion = result.DescripcionOperacion,
-            FechaExpedicion = result.FechaExpedicion,
-            FechaCobro = result.FechaCobro,
-            PendientePago = result.PendientePago,
-        };
+        //DTOFacturaResponse response = new()
+        //{
+        //    NumeroFactura = result.NumeroFactura,
+        //    Cliente = new DTOCliente()
+        //    {
+        //        Cif = result.Cliente.Cif,
+        //        Nombre = result.Cliente.Nombre,
+        //        Direccion = result.Cliente.Direccion,
+        //        Email = result.Cliente.Email,
+        //        FechaAlta = result.Cliente.FechaAlta,
+        //        Telefono = result.Cliente.Telefono,
+        //    },
+        //    Proveedor = new DTOCliente()
+        //    {
+        //        Cif = result.Proveedor.Cif,
+        //        Nombre = result.Proveedor.Nombre,
+        //        Direccion = result.Proveedor.Direccion,
+        //        Email = result.Proveedor.Email,
+        //        FechaAlta = result.Proveedor.FechaAlta,
+        //        Telefono = result.Proveedor.Telefono,
+        //    },
+        //    Articulos = articulos,
+        //    CalculosIvas = _calculoIvaService.CalculoIVA(articulos),
+        //    DesgloseIva = _calculoIvaService.DesgloseIVA(articulos),
+        //    DescripcionOperacion = result.DescripcionOperacion,
+        //    FechaExpedicion = result.FechaExpedicion,
+        //    FechaCobro = result.FechaCobro,
+        //    PendientePago = result.PendientePago,
+        //};
 
         return Ok(response);
     }
@@ -89,13 +127,29 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     public async Task<IActionResult> GetFacturasDeCliente([FromRoute] string cif)
     {
         Cliente? clienteDB = await _context.Clientes.FirstOrDefaultAsync(c => c.Cif == cif);
-        if (clienteDB == null) return BadRequest("El cliente no existe");
 
-        List<Factura>? result = await _context.Facturas.Where(f => f.ClienteId == cif).ToListAsync();
+        if (clienteDB == null)
+            return BadRequest(new { msg = "El cliente no existe" });
 
-        return result is null
-         ? NotFound()
-         : Ok(result);
+        List<Factura>? result = await _context.Facturas
+            .Include((f) => f.Cliente)
+            .Include((f) => f.Proveedor)
+            .Where(f => f.ClienteId == cif)
+            .ToListAsync();
+
+        if (result is null)
+        {
+            return NotFound(new { msg = "No se han encontrado facturas" });
+        };
+
+        List<DTOFacturaResponse> response = [];
+
+        foreach (Factura f in result)
+        {
+            response.Add(await DecryptArticle(f));
+        }
+
+        return Ok(response);
     }
 
     //[HttpGet("acotadoFecha/{cliente}/{fechaMin}/{fechaMax}")]

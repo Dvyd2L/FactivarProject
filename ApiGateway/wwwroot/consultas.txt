@@ -628,3 +628,6 @@
 01/29/2024 10:56:57 - ::1 - /api/facturas/2 - OPTIONS
 01/29/2024 10:56:57 - ::1 - /api/facturas/2 - GET
 01/29/2024 10:56:59 - ::1 - /api/facturas/2 - GET
+01/29/2024 16:31:44 - ::1 - /api/facturas/2 - OPTIONS
+01/29/2024 16:31:44 - ::1 - /api/facturas/2 - GET
+01/29/2024 16:31:44 - ::1 - /api/facturas/2 - GET

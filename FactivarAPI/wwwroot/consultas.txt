@@ -222,3 +222,7 @@
 29/01/2024 10:54:54 - ::1 - /api/Facturas/2 - GET
 29/01/2024 10:56:57 - ::1 - /api/Facturas/2 - GET
 29/01/2024 10:57:00 - ::1 - /api/Facturas/2 - GET
+29/01/2024 16:30:49 - ::1 - /api/Facturas/2 - GET
+29/01/2024 16:31:07 - ::1 - /api/Facturas/cliente/55234902D - GET
+29/01/2024 16:31:44 - ::1 - /api/Facturas/2 - GET
+29/01/2024 16:31:44 - ::1 - /api/Facturas/2 - GET
