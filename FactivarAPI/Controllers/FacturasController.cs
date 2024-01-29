@@ -43,7 +43,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     {
         Factura? result = await _context.Facturas
             .Include((f) => f.Cliente).Include((f) => f.Proveedor)
-            .FirstOrDefaultAsync((f) => f.NumeroFactura == pk);
+            .FirstOrDefaultAsync((f) => f.FacturaId == pk);
 
         if (result is null)
         {
