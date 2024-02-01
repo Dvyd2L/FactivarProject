@@ -44,7 +44,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = securityKey
         };
 
-        // TO DO: esto aun no funciona
+        // TODO: esto aun no funciona
         options.Events = new JwtBearerEvents
         {
             //OnAuthenticationFailed = context =>
@@ -122,6 +122,7 @@ app.UseOcelot().Wait();
 app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthorization();
+// app.UseAuthentication(); // esta no estaba aquí originalmente
 #endregion MIDDLEWAREs
 
 app.MapControllers();
