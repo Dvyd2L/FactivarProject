@@ -4,3 +4,9 @@ Método:                      POST
 Ruta:             /api/Facturas
 Error: An error occurred while saving the entity changes. See the inner exception for details.
 Fecha:       24/01/2024 18:27:58
+
+IP:                       ::1
+Método:                       GET
+Ruta:           /api/Facturas/3
+Error: Attempted to access a missing method.
+Fecha:       13/02/2024 19:51:59
