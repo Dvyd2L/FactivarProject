@@ -35,7 +35,7 @@ public class UsersController(
             AvatarUrl = x.AvatarUrl,
             Email = x.Email,
             Nombre = x.Nombre,
-            Telefono = x.Telefono,
+            Telefono = x.Telefono?.Trim(),
             IsAdmin = x.Credenciale?.Roles_IdRolNavigation.IdRol == 1,
         });
 
@@ -59,7 +59,7 @@ public class UsersController(
             AvatarUrl = userDB.AvatarUrl,
             Email = userDB.Email,
             Nombre = userDB.Nombre,
-            Telefono = userDB.Telefono,
+            Telefono = userDB.Telefono?.Trim(),
             IsAdmin = userDB.Credenciale?.Roles_IdRolNavigation.IdRol == 1,
         };
 
