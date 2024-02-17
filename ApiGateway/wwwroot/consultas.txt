@@ -4135,3 +4135,5 @@
 02/16/2024 22:32:51 - ::1 - /api/clientes/all - GET
 02/16/2024 23:14:05 - ::1 - /api/clientes/all - OPTIONS
 02/16/2024 23:14:05 - ::1 - /api/clientes/all - GET
+02/17/2024 10:36:32 - ::1 - /api/clientes/all - OPTIONS
+02/17/2024 10:36:33 - ::1 - /api/clientes/all - GET

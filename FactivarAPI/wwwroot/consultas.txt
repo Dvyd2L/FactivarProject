@@ -1601,3 +1601,4 @@
 16/02/2024 12:48:04 - ::1 - /api/Clientes - GET
 16/02/2024 12:48:06 - ::1 - /api/Clientes - GET
 16/02/2024 12:48:07 - ::1 - /api/Clientes - GET
+17/02/2024 10:36:33 - ::1 - /api/Clientes - GET
