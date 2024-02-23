@@ -47,21 +47,23 @@ public class CalculoIvaService(IServiceProvider serviceProvider)
         return ivas;
     }
 
-    public Dictionary<IVA, DTOIvas> DesgloseIVA(List<DTOArticulo> articulos)
+    //public Dictionary<IVA, DTOIvas> DesgloseIVA(List<DTOArticulo> articulos)
+    public Dictionary<string, DTOIvas> DesgloseIVA(List<DTOArticulo> articulos)
     {
-        Dictionary<IVA, DTOIvas> desgloseIva = new()
+        //Dictionary<IVA, DTOIvas> desgloseIva = new()
+        Dictionary<string, DTOIvas> desgloseIva = new()
         {
-            { IVA.CERO, new DTOIvas() },
-            { IVA.SUPERREDUCIDO, new DTOIvas() },
-            { IVA.ESPECIAL, new DTOIvas() },
-            { IVA.REDUCIDO, new DTOIvas() },
-            { IVA.GENERAL, new DTOIvas() }
+            { IVA.CERO.ToString().ToLower(), new DTOIvas() },
+            { IVA.SUPERREDUCIDO.ToString().ToLower(), new DTOIvas() },
+            { IVA.ESPECIAL.ToString().ToLower(), new DTOIvas() },
+            { IVA.REDUCIDO.ToString().ToLower(), new DTOIvas() },
+            { IVA.GENERAL.ToString().ToLower(), new DTOIvas() }
         };
 
         foreach (DTOArticulo articulo in articulos)
         {
-            desgloseIva[articulo.Iva].BImponible += articulo.BImponible;
-            desgloseIva[articulo.Iva].Cuota += articulo.CuotaIva;
+            desgloseIva[articulo.Iva.ToString().ToLower()].BImponible += articulo.BImponible;
+            desgloseIva[articulo.Iva.ToString().ToLower()].Cuota += articulo.CuotaIva;
         }
 
         return desgloseIva;

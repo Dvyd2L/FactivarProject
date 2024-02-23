@@ -5,6 +5,7 @@ using Helpers.Enums;
 using Helpers.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using Services;
 using Services.Interfaces;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
@@ -207,12 +208,14 @@ public class AuthController(
     /// </summary>
     /// <param name="textoEnlace"></param>
     /// <returns></returns>
-    [HttpGet("/changepassword/{textoEnlace}")]
+    [HttpGet("/change-password/{textoEnlace}")]
     public async Task<IActionResult> ChangePassword(string textoEnlace)
     {
         Credenciale? usuarioDB = await _dbCredencialesService.Read(fieldSelector: (e) => e.EnlaceCambioPass, value: textoEnlace, tracking: true);
 
-        return usuarioDB == null ? BadRequest("Enlace incorrecto") : (ActionResult)Ok("Enlace correcto");
+        return usuarioDB == null
+            ? BadRequest(new { msg = "Enlace incorrecto" })
+            : (ActionResult)Ok(new { msg = "Enlace correcto" });
     }
 
     /// <summary>
@@ -221,7 +224,7 @@ public class AuthController(
     /// <param name="input"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpPut("/changepassword")]
+    [HttpPut("/change-password")]
     public async Task<ActionResult> ChangePassword([FromBody] LoginUserDTO input)
     {
         IEnumerable<DatosPersonale>? usersDB = await _dbDatosPersonalesService.Read(tracking: true, include: (e) => e.Credenciale!);
@@ -255,9 +258,10 @@ public class AuthController(
 
         await _dbDatosPersonalesService.Update(usuarioDB);
 
-        string ruta = $"{_httpContextAccessor?.HttpContext?.Request.Scheme}://{_httpContextAccessor?.HttpContext?.Request.Host}/changepassword/{textoEnlace}";
+        // string ruta = $"{_httpContextAccessor?.HttpContext?.Request.Scheme}://{_httpContextAccessor?.HttpContext?.Request.Host}/change-password/{textoEnlace}";
 
-        return Ok(ruta);
+        // return Ok(new {msg = ruta});
+        return Ok(new { msg = textoEnlace });
     }
 
     /// <summary>

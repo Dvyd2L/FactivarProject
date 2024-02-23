@@ -10,10 +10,8 @@ public class AsyncLogger(string logFile) : ThreadedLogger
         {
             try
             {
-                using (StreamWriter writer = new(_logFile, append: true))
-                {
-                    _ = writer.WriteLineAsync(message);
-                }
+                using StreamWriter writer = new(_logFile, append: true);
+                _ = writer.WriteLineAsync(message);
             }
             catch (Exception ex)
             {

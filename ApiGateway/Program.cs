@@ -1,10 +1,13 @@
 using Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Middlewares;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Services;
+using System.Net.Mime;
 using System.Text;
 using System.Text.Json;
 
@@ -31,74 +34,83 @@ builder.Services.AddTransient<LogRequestMiddleware>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+  .AddJwtBearer(options =>
+  {
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
+      ValidateLifetime = true,
+      ValidAudience = audience,
+      ValidateAudience = true, // en mis ejemplos es false
+      ValidateIssuer = true, // en mis ejemplos es false
+      ValidIssuer = issuer,
+      ValidateIssuerSigningKey = true,
+      IssuerSigningKey = securityKey
+    };
+
+    // TODO: esto aun no funciona
+    options.Events = new JwtBearerEvents
+    {
+      OnAuthenticationFailed = context =>
+      {
+        Dictionary<Type, string[]> exceptionToHeaderMap = new()
         {
-            ValidateLifetime = true,
-            ValidAudience = audience,
-            ValidateAudience = true, // en mis ejemplos es false
-            ValidateIssuer = true, // en mis ejemplos es false
-            ValidIssuer = issuer,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = securityKey
+          { typeof(SecurityTokenExpiredException), ["Token-Expired", "true"] },
+          { typeof(SecurityTokenInvalidAudienceException), ["Token-Audience", "Invalid"] },
+          { typeof(SecurityTokenException), ["Token-Exception", true.ToString()] }
         };
 
-        // TODO: esto aun no funciona
-        options.Events = new JwtBearerEvents
+        if (exceptionToHeaderMap.TryGetValue(context.Exception.GetType(), out string[]? header))
         {
-            //OnAuthenticationFailed = context =>
-            //{
-            //    if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-            //    {
-            //        context.Response.Headers.Append("Token-Expired", "true");
-            //    }
+          context.Response.Headers.Append(header[0], header[1]);
+        }
 
-            //    if (context.Exception.GetType() == typeof(SecurityTokenInvalidAudienceException))
-            //    {
-            //        context.Response.Headers.Append("Token-Audience", "Invalid");
-            //    }
+        return Task.CompletedTask;
+      },
 
-            //    if (context.Exception.GetType() == typeof(SecurityTokenException))
-            //    {
-            //        context.Response.Headers.Append("Token-Exception", true.ToString());
-            //    }
+      OnChallenge = context =>
+      {
+        context.HandleResponse();
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        context.Response.ContentType = MediaTypeNames.Application.Json;
+        context.Response.Headers.Append(HeaderNames.WWWAuthenticate, @"Bearer error = ""invalid_token""");
 
-            //    return Task.CompletedTask;
-            //},
-
-            OnChallenge = context =>
-            {
-                context.HandleResponse();
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                context.Response.ContentType = "application/json";
-                context.Response.Headers.Append("WWW-Authenticate", @"Bearer error = ""invalid_token""");
-
-                // Personaliza tu mensaje de error aquí
-                string json = JsonSerializer.Serialize(new { error = "Mensaje de error personalizado" });
-                return context.Response.WriteAsync(json);
-            }
-        };
-    });
+        // Personaliza tu mensaje de error aquí
+        string json = JsonSerializer.Serialize(new { error = "Mensaje de error personalizado" });
+        return context.Response.WriteAsync(json);
+      }
+    };
+  })
+  // TODO: Cookies
+  .AddCookie((options) =>
+  {
+    options.Cookie.HttpOnly = true; // Este atributo hace que la cookie sea inaccesible para el código del lado del cliente, como JavaScript.
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Este atributo indica que la cookie solo debe enviarse a través de HTTPS.
+    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax; // Este atributo puede prevenir ciertos tipos de ataques de falsificación de solicitudes entre sitios.
+    options.Cookie.Name = "MiCookie"; // Este atributo define el nombre de la cookie.
+    options.ExpireTimeSpan = TimeSpan.FromDays(7); // Este atributo define cuándo expira la cookie.
+  })
+  .AddIdentityCookies((options) => { });
 
 #region CORS Policy
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+  string? origins = builder.Configuration.GetSection("AllowedHosts").ToString();
+  options.AddDefaultPolicy(builder =>
     {
-        _ = builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+      _ = builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 
-    options.AddPolicy("DevCorsPolicy", builder =>
-    {
-        _ = builder.WithOrigins("https://www.localhost:4200").AllowAnyMethod().AllowAnyHeader();
-    });
+  options.AddPolicy("DevCorsPolicy", builder =>
+  {
+    // TODO: cambiar configuracion desde app settings
+    _ = builder.WithOrigins(origins!).AllowAnyMethod().AllowAnyHeader();
+  });
 
-    options.AddPolicy("ProdCorsPolicy", builder =>
-    {
-        // builder.WithOrigins("https://www.MyOcelotApiGw.com").WithMethods("GET").AllowAnyHeader();
-        _ = builder.WithOrigins("https://www.hosting.MyOcelotApiGw.com").AllowAnyMethod().AllowAnyHeader();
-    });
+  options.AddPolicy("ProdCorsPolicy", builder =>
+  {
+    // TODO: cambiar configuracion desde app settings
+    _ = builder.WithOrigins(origins!).AllowAnyMethod().AllowAnyHeader();
+  });
 });
 #endregion CORS Policy
 
@@ -112,15 +124,20 @@ WebApplication app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    _ = app.UseSwagger();
-    _ = app.UseSwaggerUI();
+  _ = app.UseSwagger();
+  _ = app.UseSwaggerUI();
+  //_ = app.UseCors("DevCorsPolicy");
+  _ = app.UseCors();
+}
+else
+{
+  _ = app.UseCors("ProdCorsPolicy");
 }
 
 app.UseMiddleware<PreflightRequestMiddleware>();
 app.UseMiddleware<LogRequestMiddleware>();
 app.UseOcelot().Wait();
 app.UseHttpsRedirection();
-app.UseCors();
 app.UseAuthorization();
 // app.UseAuthentication(); // esta no estaba aquí originalmente
 #endregion MIDDLEWAREs

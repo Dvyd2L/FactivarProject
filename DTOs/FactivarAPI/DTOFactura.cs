@@ -16,7 +16,8 @@ public class DTOFacturaResponse
 {
     public int NumeroFactura { get; set; }
     public IEnumerable<DTOIvas>? CalculosIvas { get; set; }
-    public Dictionary<IVA, DTOIvas>? DesgloseIva { get; set; }
+    //public Dictionary<IVA, DTOIvas>? DesgloseIva { get; set; }
+    public Dictionary<string, DTOIvas>? DesgloseIva { get; set; }
     public bool PendientePago { get; set; }
     public string DescripcionOperacion { get; set; } = null!;
     public DateOnly FechaExpedicion { get; set; }
