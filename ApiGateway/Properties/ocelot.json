@@ -1,21 +1,5 @@
 {
   "Routes": [
-    //{
-    //  "AuthenticationOptions": {
-    //    "AuthenticationProviderKey": "Bearer",
-    //    "AllowedScopes": []
-    //  },
-    //  "DownstreamPathTemplate": "/api/{everything}",
-    //  "DownstreamScheme": "https",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "servicio1",
-    //      "Port": 80
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/servicio1/{everything}",
-    //  "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-    //},
     //FactivarAPI - CLIENTES
     {
       "AuthenticationOptions": {
@@ -31,7 +15,7 @@
           "Port": 7005
         }
       ],
-      "UpstreamPathTemplate": "/api/clientes/all", // lleagda desde front
+      "UpstreamPathTemplate": "/api/clientes", // lleagda desde front
       "UpstreamHttpMethod": [ "Get" ]
     },
     {
@@ -222,7 +206,7 @@
       "UpstreamPathTemplate": "/api/facturas", // lleagda desde front
       "UpstreamHttpMethod": [ "Post" ]
     },
-    //UsersMicroService
+    // AUTH - MicroService
     {
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer",
@@ -236,7 +220,7 @@
           "Port": 7106
         }
       ],
-      "UpstreamPathTemplate": "/api/usuarios/all",
+      "UpstreamPathTemplate": "/api/usuarios",
       "UpstreamHttpMethod": [ "Get" ]
     },
     {

@@ -4,7 +4,7 @@
 @fechamin = 2023-01-01
 @fechamax = 2024-01-30
 
-GET {{Ocelot_API_Gateway_HostAddress}}/api/clientes/all
+GET {{Ocelot_API_Gateway_HostAddress}}/api/clientes
 Content-Type: text/plain
 Authorization: Bearer {{token}}
 

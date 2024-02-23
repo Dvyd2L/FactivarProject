@@ -25,6 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "ApiGateway\Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthMS", "AuthMS\AuthMS.csproj", "{17D51A96-E94F-4DE7-A059-790E2221E116}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resoruces", "Resoruces", "{D2FC540E-5752-4385-B82C-E5A329AF0182}"
+	ProjectSection(SolutionItems) = preProject
+		AuthMS\Resoruces\messages.json = AuthMS\Resoruces\messages.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
