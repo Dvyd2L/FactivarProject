@@ -4,3 +4,157 @@ Método:                      POST
 Ruta:             /api/Facturas
 Error: An error occurred while saving the entity changes. See the inner exception for details.
 Fecha:       24/01/2024 18:27:58
+
+IP:                       ::1
+Método:                       GET
+Ruta: /api/Facturas/cliente/44059344C
+Error: Unexpected character encountered while parsing value: e. Path '', line 0, position 0.
+Fecha:       04/02/2024 19:29:45
+
+IP:                       ::1
+Método:                       GET
+Ruta: /api/Facturas/cliente/44059344C
+Error: Unexpected character encountered while parsing value: e. Path '', line 0, position 0.
+Fecha:       04/02/2024 19:33:57
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/13
+Error: Unexpected character encountered while parsing value: e. Path '', line 0, position 0.
+Fecha:       04/02/2024 19:36:56
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/13
+Error: Unexpected character encountered while parsing value: e. Path '', line 0, position 0.
+Fecha:       04/02/2024 19:37:55
+
+IP:                       ::1
+Método:                       GET
+Ruta: /api/Facturas/cliente/44059344C
+Error: Unexpected character encountered while parsing value: e. Path '', line 0, position 0.
+Fecha:       04/02/2024 19:40:48
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/13
+Error: Unexpected character encountered while parsing value: e. Path '', line 0, position 0.
+Fecha:       04/02/2024 19:41:02
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/13
+Error: Unexpected character encountered while parsing value: e. Path '', line 0, position 0.
+Fecha:       04/02/2024 19:51:33
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:40:19
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:40:19
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:40:37
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:40:37
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:40:52
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:40:52
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:40:54
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:40:54
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:41:14
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:41:15
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:41:17
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:41:17
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:41:19
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:41:19
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:41:21
+
+IP:                       ::1
+Método:                       GET
+Ruta:          /api/Facturas/14
+Error: IDX12709: CanReadToken() returned false. JWT is not well formed: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EndcodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+Fecha:       05/02/2024 10:41:21

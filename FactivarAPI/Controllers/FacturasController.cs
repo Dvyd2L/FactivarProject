@@ -21,7 +21,8 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
     #region ########### METODOS ###########
     private Task<DTOFacturaResponse> DecryptArticle(Factura factura)
     {
-        List<DTOArticulo> articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(factura.Articulos) ?? [];
+        Console.WriteLine(factura.Articulos);
+        List<DTOArticulo> articulos = _tokenService.LeerTokenArticulos(factura.Articulos);
 
         DTOFacturaResponse response = new()
         {
@@ -103,7 +104,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
         List<Factura>? result = await _context.Facturas
             .Include((f) => f.Cliente)
             .Include((f) => f.Proveedor)
-            .Where(f => f.ClienteId == cif)
+            .Where(f => f.ProveedorId == cif)
             .ToListAsync();
 
         if (result is null)
@@ -239,7 +240,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
             FechaCobro = input.FechaCobro,
             ClienteId = input.ClienteId,
             ProveedorId = input.ProveedorId,
-            Articulos = JsonConvert.SerializeObject(input.Articulos)
+            Articulos = _tokenService.GenerarTokenArticulos(input.Articulos)
         };
 
         _ = await _context.Facturas.AddAsync(newFactura);
