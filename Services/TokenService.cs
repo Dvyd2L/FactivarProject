@@ -47,7 +47,7 @@ public class TokenService(IConfiguration configuration)
 
     if (user.Telefono is not null)
     {
-      claims.Add(new Claim(nameof(ClaimTypes.MobilePhone).ToLower(), user.Telefono));
+      claims.Add(new Claim(nameof(ClaimTypes.MobilePhone).ToLower(), user.Telefono.Trim()));
     }
 
     foreach (string item in credenciales)
