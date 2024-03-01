@@ -363,3 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 /UsersMicroservice/Docs/client_secret_621242054251-df5enn397eb66be8lst0vmlqrf1i7ihs.apps.googleusercontent.com.json
 /AuthMS/Docs/client_secret_621242054251-df5enn397eb66be8lst0vmlqrf1i7ihs.apps.googleusercontent.com.json
+/ApiGateway/wwwroot/consultas.txt
+/AuthMS/wwwroot/consultas.txt
+/FactivarAPI/wwwroot/consultas.txt
+/FactivarAPI/wwwroot/logErrores.txt

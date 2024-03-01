@@ -66,7 +66,7 @@ public class FacturasController(FactivarContext context, CalculoIvaService calcu
         foreach (Factura f in input)
         {
             articulosFactura = f.Articulos;
-            articulos = JsonConvert.DeserializeObject<List<DTOArticulo>>(articulosFactura);
+            articulos = _tokenService.LeerTokenArticulos(f.Articulos);
             articulosFinal.AddRange(articulos!);
         }
 
