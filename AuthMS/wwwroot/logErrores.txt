@@ -1,0 +1,12 @@
+
+IP:                       ::1
+Método:                      POST
+Ruta:      /google-authenticate
+Error: The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters.
+Fecha:       02/03/2024 18:22:58
+
+IP:                       ::1
+Método:                      POST
+Ruta:      /google-authenticate
+Error: The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters.
+Fecha:       02/03/2024 18:23:58
