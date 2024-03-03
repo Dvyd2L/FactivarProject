@@ -174,11 +174,11 @@ public class AuthController(
   }
 
   [HttpPost("/google-authenticate")]
-  public async Task<ActionResult<string>> GoogleAuthenticate([FromBody] GoogleIdTokenDTO input)
+  public async Task<IActionResult> GoogleAuthenticate([FromBody] GoogleIdTokenDTO input)
   {
     try
     {
-      Payload payload = await ValidateAsync(input.GoogleIdToken);
+      Payload payload = await ValidateAsync(input?.GoogleIdToken);
 
       UserDTO user = new()
       {
@@ -199,6 +199,11 @@ public class AuthController(
     {
       // Manejar token no válido
       return Unauthorized(new { message = $"Token no valido: {ex.Message}" });
+    }
+    catch (Exception ex)
+    {
+      // Manejar token no válido
+      return Unauthorized(new { message = $"Algo salió mal: {ex.Message}" });
     }
   }
 

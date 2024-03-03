@@ -33,7 +33,7 @@ public class TokenService(IConfiguration configuration)
     // Los claims construyen la información que va en el payload del token
     List<Claim> claims =
     [
-        new Claim(nameof(ClaimTypes.Sid).ToLower(), user.Id.ToString()),
+      new Claim(nameof(ClaimTypes.Sid).ToLower(), user.Id.ToString()),
       new Claim(nameof(ClaimTypes.Email).ToLower(), user.Email),
       new Claim(nameof(ClaimTypes.Name).ToLower(), user.Nombre),
       new Claim(nameof(ClaimTypes.Surname).ToLower(), user.Apellidos),

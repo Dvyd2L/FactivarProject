@@ -367,3 +367,8 @@ FodyWeavers.xsd
 /AuthMS/wwwroot/consultas.txt
 /FactivarAPI/wwwroot/consultas.txt
 /FactivarAPI/wwwroot/logErrores.txt
+/FactivarAPI/wwwroot/consultas.txt
+/AuthMS/wwwroot/consultas.txt
+/FactivarAPI/wwwroot/logErrores.txt
+/ApiGateway/wwwroot/consultas.txt
+/AuthMS/wwwroot/logErrores.txt
